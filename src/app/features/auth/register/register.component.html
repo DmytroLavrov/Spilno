@@ -1,88 +1,72 @@
-<div class="auth-wrapper">
-  <div class="auth-cover">
-    <div class="cover-glass">
-      <div class="brand">🏠 Spilno</div>
-      <h1 class="cover-title">Почніть нове<br />життя.</h1>
-      <p class="cover-subtitle">
-        Долучайтесь до закритої спільноти вашого будинку за кілька кліків.
-      </p>
-    </div>
-  </div>
-
-  <div class="auth-content">
-    <div class="form-container">
-      <div class="form-header">
-        <h2>Створити акаунт ✨</h2>
-        <p>Реєстрація для мешканців ОСББ</p>
-      </div>
-
-      <form [formGroup]="form" (ngSubmit)="submit()">
-        @if (error()) {
-          <div class="error-alert">
-            <i class="pi pi-exclamation-circle"></i>
-            <span>{{ error() }}</span>
-          </div>
-        }
-
-        <div class="input-group">
-          <label for="name">Повне ім'я</label>
-          <input pInputText id="name" formControlName="name" placeholder="Іванов Іван Іванович" />
-        </div>
-
-        <div style="display: flex; gap: 1rem">
-          <div class="input-group" style="flex: 1">
-            <label for="apartment">Квартира</label>
-            <input pInputText id="apartment" formControlName="apartmentNumber" placeholder="42" />
-          </div>
-          <div class="input-group" style="flex: 2">
-            <label for="phone">Телефон</label>
-            <p-inputmask
-              formControlName="phone"
-              inputId="phone"
-              mask="+380 (99) 999-99-99"
-              placeholder="+380 (__) ___-__-__"
-              [unmask]="true"
-            ></p-inputmask>
-          </div>
-        </div>
-
-        <div class="input-group">
-          <label for="email">Email</label>
-          <input
-            pInputText
-            id="email"
-            type="email"
-            formControlName="email"
-            placeholder="name@example.com"
-          />
-        </div>
-
-        <div class="input-group">
-          <label for="password">Пароль</label>
-          <p-password
-            formControlName="password"
-            inputId="password"
-            [toggleMask]="true"
-            [feedback]="true"
-            promptLabel="Введіть пароль"
-            weakLabel="Слабкий пароль"
-            mediumLabel="Середній рівень"
-            strongLabel="Надійний пароль"
-            placeholder="Мінімум 6 символів"
-          >
-          </p-password>
-        </div>
-
-        <p-button
-          type="submit"
-          label="Зареєструватися"
-          [loading]="loading()"
-          [disabled]="form.invalid"
-          styleClass="auth-btn"
-        ></p-button>
-      </form>
-
-      <div class="form-footer">Вже є акаунт? <a routerLink="/auth/login">Увійти</a></div>
-    </div>
-  </div>
+<div class="form-header">
+  <h2>Створити акаунт ✨</h2>
+  <p>Реєстрація для мешканців ОСББ</p>
 </div>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  @if (error()) {
+    <div class="error-alert">
+      <i class="pi pi-exclamation-circle"></i>
+      <span>{{ error() }}</span>
+    </div>
+  }
+
+  <div class="input-group">
+    <label for="name">Повне ім'я</label>
+    <input pInputText id="name" formControlName="name" placeholder="Іванов Іван Іванович" />
+  </div>
+
+  <div style="display: flex; gap: 1rem">
+    <div class="input-group" style="flex: 1">
+      <label for="apartment">Квартира</label>
+      <input pInputText id="apartment" formControlName="apartmentNumber" placeholder="42" />
+    </div>
+    <div class="input-group" style="flex: 2">
+      <label for="phone">Телефон</label>
+      <p-inputmask
+        formControlName="phone"
+        inputId="phone"
+        mask="+380 (99) 999-99-99"
+        placeholder="+380 (__) ___-__-__"
+        [unmask]="true"
+      ></p-inputmask>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="email">Email</label>
+    <input
+      pInputText
+      id="email"
+      type="email"
+      formControlName="email"
+      placeholder="name@example.com"
+    />
+  </div>
+
+  <div class="input-group">
+    <label for="password">Пароль</label>
+    <p-password
+      formControlName="password"
+      inputId="password"
+      [toggleMask]="true"
+      [feedback]="true"
+      promptLabel="Введіть пароль"
+      weakLabel="Слабкий пароль"
+      mediumLabel="Середній рівень"
+      strongLabel="Надійний пароль"
+      placeholder="Мінімум 6 символів"
+    >
+    </p-password>
+  </div>
+
+  <p-button
+    type="submit"
+    label="Зареєструватися"
+    [loading]="loading()"
+    [disabled]="form.invalid"
+    styleClass="auth-btn"
+  ></p-button>
+</form>
+
+<div class="form-footer">Вже є акаунт? <a routerLink="/auth/login">Увійти</a></div>

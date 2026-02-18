@@ -11,7 +11,7 @@ export const routes: Routes = [
   // --- Public routes ---
   {
     path: 'auth',
-    loadChildren: () => import('@features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
+    loadChildren: () => import('@features/auth/auth.routes').then((m) => m.authRoutes),
   },
 
   // --- TEST ROUTE ---

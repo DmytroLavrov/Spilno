@@ -7,6 +7,7 @@ import { CardModule } from 'primeng/card';
 import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
+import { AuthLayoutService } from '@layout/auth-layout/auth-layout.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ import { ButtonModule } from 'primeng/button';
 export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private layout = inject(AuthLayoutService);
 
   public loading = signal(false);
   public error = signal<string | null>(null);
@@ -33,6 +35,14 @@ export class LoginComponent {
     email: this.fb.control('', [Validators.required, Validators.email]),
     password: this.fb.control('', [Validators.required, Validators.minLength(6)]),
   });
+
+  constructor() {
+    this.layout.title.set('Ваш дім.<br>Ваші правила.');
+    this.layout.subtitle.set(
+      'Єдина платформа для розумного управління ОСББ. Приєднуйтесь до сусідів.',
+    );
+    this.layout.bgGradient.set('linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)');
+  }
 
   async submit() {
     if (this.form.invalid) {
