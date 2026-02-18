@@ -1,35 +1,19 @@
-<div class="auth-wrapper">
-  <div class="auth-cover" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
-    <div class="cover-glass">
-      <div class="brand">🏠 Spilno</div>
-      <h1 class="cover-title">Безпека<br />понад усе.</h1>
-      <p class="cover-subtitle">
-        Ми перевіряємо кожного користувача, щоб ваша спільнота була захищеною.
-      </p>
-    </div>
+<div class="status-card">
+  <div class="status-icon pending">
+    <i class="pi pi-clock"></i>
   </div>
-
-  <div class="auth-content">
-    <div class="form-container">
-      <div class="status-card">
-        <div class="status-icon pending">
-          <i class="pi pi-clock"></i>
-        </div>
-        <h2>Очікуємо підтвердження</h2>
-        <p>
-          Ваша заявка успішно надіслана. Адміністратор перевірить дані та надасть доступ найближчим
-          часом. Ви отримаєте сповіщення на пошту.
-        </p>
-        <p-button
-          label="Вийти з акаунту"
-          icon="pi pi-arrow-left"
-          severity="secondary"
-          [outlined]="true"
-          (onClick)="logout()"
-          styleClass="w-full"
-          [style]="{ 'border-radius': '12px', padding: '0.8rem' }"
-        ></p-button>
-      </div>
-    </div>
-  </div>
+  <h2>Очікуємо підтвердження</h2>
+  <p>
+    Ваша заявка успішно надіслана. Адміністратор перевірить дані та надасть доступ найближчим часом.
+    Ви отримаєте сповіщення на пошту.
+  </p>
+  <p-button
+    label="Вийти з акаунту"
+    icon="pi pi-arrow-left"
+    severity="secondary"
+    [outlined]="true"
+    (onClick)="logout()"
+    styleClass="w-full"
+    [style]="{ 'border-radius': '12px', padding: '0.8rem' }"
+  ></p-button>
 </div>

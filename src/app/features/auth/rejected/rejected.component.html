@@ -1,33 +1,17 @@
-<div class="auth-wrapper">
-  <div class="auth-cover" style="background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%)">
-    <div class="cover-glass">
-      <div class="brand">🏠 Spilno</div>
-      <h1 class="cover-title">Щось пішло<br />не так.</h1>
-      <p class="cover-subtitle">
-        Виникла проблема з вашою заявкою. Не хвилюйтесь, це можна вирішити.
-      </p>
-    </div>
+<div class="status-card">
+  <div class="status-icon rejected">
+    <i class="pi pi-times"></i>
   </div>
-
-  <div class="auth-content">
-    <div class="form-container">
-      <div class="status-card">
-        <div class="status-icon rejected">
-          <i class="pi pi-times"></i>
-        </div>
-        <h2>Доступ відхилено</h2>
-        <p>
-          На жаль, адміністратор відхилив вашу заявку на приєднання до ОСББ. Зв'яжіться з головою
-          ОСББ особисто або спробуйте зареєструватися з правильними даними.
-        </p>
-        <p-button
-          label="Зрозуміло, вийти"
-          icon="pi pi-sign-out"
-          severity="danger"
-          (onClick)="logout()"
-          styleClass="auth-btn"
-        ></p-button>
-      </div>
-    </div>
-  </div>
+  <h2>Доступ відхилено</h2>
+  <p>
+    На жаль, адміністратор відхилив вашу заявку на приєднання до ОСББ. Зв'яжіться з головою ОСББ
+    особисто або спробуйте зареєструватися з правильними даними.
+  </p>
+  <p-button
+    label="Зрозуміло, вийти"
+    icon="pi pi-sign-out"
+    severity="danger"
+    (onClick)="logout()"
+    styleClass="auth-btn"
+  ></p-button>
 </div>

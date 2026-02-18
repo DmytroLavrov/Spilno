@@ -1,0 +1,15 @@
+<div class="auth-wrapper">
+  <div class="auth-cover" [style.background]="layout.bgGradient()">
+    <div class="cover-glass">
+      <div class="brand">🏠 Spilno</div>
+      <h1 class="cover-title" [innerHTML]="layout.title()"></h1>
+      <p class="cover-subtitle">{{ layout.subtitle() }}</p>
+    </div>
+  </div>
+
+  <div class="auth-content">
+    <div class="form-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

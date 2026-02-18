@@ -1,0 +1,32 @@
+.status-card {
+  text-align: center;
+
+  .status-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto 1.5rem;
+
+    &.pending {
+      background: #eff6ff;
+      color: #3b82f6;
+    }
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: #111827;
+  }
+
+  p {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+}

@@ -8,6 +8,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { InputMaskModule } from 'primeng/inputmask';
+import { AuthLayoutService } from '@layout/auth-layout/auth-layout.service';
 
 @Component({
   selector: 'app-register',
@@ -27,6 +28,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private layout = inject(AuthLayoutService);
 
   public loading = signal(false);
   public error = signal<string | null>(null);
@@ -38,6 +40,12 @@ export class RegisterComponent {
     email: this.fb.control('', [Validators.required, Validators.email]),
     password: this.fb.control('', [Validators.required, Validators.minLength(6)]),
   });
+
+  constructor() {
+    this.layout.title.set('Почніть нове<br />життя.');
+    this.layout.subtitle.set('Долучайтесь до закритої спільноти вашого будинку за кілька кліків.');
+    this.layout.bgGradient.set('linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)');
+  }
 
   async submit() {
     if (this.form.invalid) {
