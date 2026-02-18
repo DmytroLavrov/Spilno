@@ -1,0 +1,29 @@
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '@core/services/auth.service';
+import { map, take } from 'rxjs';
+
+export const statusGuard = (allowedStatus: string): CanActivateFn => {
+  return () => {
+    const authService = inject(AuthService);
+    const router = inject(Router);
+
+    return authService.currentUser$.pipe(
+      take(1),
+      map((user) => {
+        if (!user) {
+          return router.createUrlTree(['/auth/login']);
+        }
+
+        if (user.status === allowedStatus) {
+          return true;
+        }
+
+        if (user.status === 'pending') return router.createUrlTree(['/auth/pending']);
+        if (user.status === 'rejected') return router.createUrlTree(['/auth/rejected']);
+
+        return router.createUrlTree(['/dashboard']);
+      }),
+    );
+  };
+};
