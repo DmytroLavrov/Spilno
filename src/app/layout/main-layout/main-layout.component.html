@@ -1,0 +1,118 @@
+<div class="layout" [class.layout--collapsed]="collapsed()">
+  <aside class="sidebar">
+    <div class="sidebar__logo">
+      @if (!collapsed()) {
+        <span class="sidebar__logo-text">🏠 Spilno</span>
+      } @else {
+        <span class="sidebar__logo-icon">🏠</span>
+      }
+    </div>
+
+    <p-divider styleClass="sidebar__divider" />
+
+    <nav class="sidebar__nav">
+      @for (item of visibleNavItems(); track item.route) {
+        <a
+          class="nav-item"
+          [routerLink]="item.route"
+          routerLinkActive="nav-item--active"
+          pRipple
+          [pTooltip]="collapsed() ? item.label : ''"
+          tooltipPosition="right"
+        >
+          <span class="nav-item__icon-wrap">
+            <i [class]="'pi ' + item.icon"></i>
+            @if (item.badge && item.badge() > 0) {
+              <p-badge
+                [value]="item.badge()!.toString()"
+                severity="danger"
+                styleClass="nav-badge"
+              />
+            }
+          </span>
+          @if (!collapsed()) {
+            <span class="nav-item__label">{{ item.label }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <button
+      class="sidebar__collapse-btn"
+      (click)="toggleCollapse()"
+      pRipple
+      [pTooltip]="collapsed() ? 'Розгорнути' : 'Згорнути'"
+      tooltipPosition="right"
+    >
+      <i [class]="collapsed() ? 'pi pi-angle-right' : 'pi pi-angle-left'"></i>
+    </button>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <p-button
+        icon="pi pi-bars"
+        [text]="true"
+        class="topbar__hamburger"
+        (onClick)="mobileOpen.set(true)"
+      />
+
+      <div class="topbar__spacer"></div>
+
+      <div class="topbar__user">
+        <div class="user-info">
+          <span class="user-info__role">
+            {{ isAdmin() ? 'Адміністратор' : 'Мешканець' }}
+            @if (!isAdmin()) {
+              · кв. {{ apartmentNumber() }}
+            }
+          </span>
+        </div>
+
+        <p-avatar
+          [label]="userInitials()"
+          shape="circle"
+          styleClass="topbar__avatar"
+          [style]="{ background: avatarColor(), color: '#fff' }"
+        />
+
+        <p-button
+          icon="pi pi-sign-out"
+          [text]="true"
+          severity="secondary"
+          pTooltip="Вийти"
+          tooltipPosition="bottom"
+          (onClick)="logout()"
+        />
+      </div>
+    </header>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+
+  <p-drawer [(visible)]="mobileOpenVisible" styleClass="mobile-sidebar">
+    <ng-template pTemplate="header">
+      <span class="mobile-sidebar__title">🏠 Spilno</span>
+    </ng-template>
+
+    <nav class="sidebar__nav sidebar__nav--mobile">
+      @for (item of visibleNavItems(); track item.route) {
+        <a
+          class="nav-item"
+          [routerLink]="item.route"
+          routerLinkActive="nav-item--active"
+          (click)="mobileOpen.set(false)"
+          pRipple
+        >
+          <i [class]="'pi ' + item.icon"></i>
+          <span>{{ item.label }}</span>
+          @if (item.badge && item.badge() > 0) {
+            <p-badge [value]="item.badge()!.toString()" severity="danger" />
+          }
+        </a>
+      }
+    </nav>
+  </p-drawer>
+</div>
