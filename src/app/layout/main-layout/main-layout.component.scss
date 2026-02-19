@@ -1,0 +1,255 @@
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  transition: grid-template-columns 0.25s ease;
+}
+
+.layout--collapsed {
+  grid-template-columns: 64px 1fr;
+}
+
+.sidebar {
+  background: var(--app-surface);
+  color: var(--app-text);
+  border-right: 1px solid var(--app-border);
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.sidebar__logo {
+  padding: 0.75rem 1rem 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 28px;
+  white-space: nowrap;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .sidebar__divider {
+  margin: 0.1875rem 0;
+  &.p-divider-horizontal::before {
+    border-top-color: var(--app-border) !important;
+  }
+}
+
+.sidebar__nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.5rem 0.5rem;
+  overflow-y: auto;
+}
+
+.layout--collapsed .sidebar__nav {
+  align-items: center;
+}
+
+.layout--collapsed .sidebar__logo {
+  justify-content: center;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  color: var(--app-text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  white-space: nowrap;
+  position: relative;
+
+  &:hover {
+    background: var(--app-hover);
+    color: var(--app-text);
+  }
+
+  &.nav-item--active {
+    background: color-mix(in srgb, var(--p-primary-color) 12%, transparent) !important;
+    color: var(--p-primary-color) !important;
+    font-weight: 600;
+  }
+}
+
+.nav-item__icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  i {
+    font-size: 1rem;
+  }
+}
+
+:host ::ng-deep .nav-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 16px;
+  height: 16px;
+  font-size: 0.65rem;
+  padding: 0 4px;
+}
+
+.sidebar__collapse-btn {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  color: var(--app-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.15s,
+    color 0.15s;
+
+  &:hover {
+    background: var(--app-hover);
+    color: var(--app-text);
+  }
+
+  i {
+    font-size: 1rem;
+  }
+}
+
+.topbar {
+  height: 60px;
+  background: color-mix(in srgb, var(--app-surface) 80%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--app-border);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  gap: 0.75rem;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+}
+
+.topbar__spacer {
+  flex: 1;
+}
+
+.topbar__hamburger {
+  display: none;
+}
+
+.topbar__user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.user-info__name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  color: var(--app-text);
+}
+
+.user-info__role {
+  font-size: 0.75rem;
+  color: var(--app-text-muted);
+}
+
+:host ::ng-deep .topbar__avatar {
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  cursor: default;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--app-bg);
+  transition: background-color 0.3s ease;
+}
+
+.content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .topbar__hamburger {
+    display: flex;
+  }
+
+  .user-info {
+    display: none;
+  }
+}
+
+:host ::ng-deep .mobile-sidebar {
+  width: 260px !important;
+  background: var(--app-surface) !important;
+  border-style: none;
+}
+
+.mobile-sidebar__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.sidebar__nav--mobile {
+  padding: 0;
+  align-items: stretch !important;
+
+  .nav-item {
+    color: var(--app-text);
+
+    &:hover {
+      background: var(--app-hover);
+    }
+
+    &.nav-item--active {
+      background: color-mix(in srgb, var(--p-primary-color) 12%, transparent) !important;
+      color: var(--p-primary-color) !important;
+    }
+  }
+}

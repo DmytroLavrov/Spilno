@@ -15,11 +15,19 @@ export const routes: Routes = [
   },
 
   // --- TEST ROUTE ---
+
   {
-    path: 'dashboard',
+    path: '',
     canActivate: [authGuard],
     loadComponent: () =>
-      import('@features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      import('@layout/main-layout/main-layout.component').then((m) => m.MainLayoutComponent),
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('@features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      },
+    ],
   },
 
   { path: '**', redirectTo: 'dashboard' },
