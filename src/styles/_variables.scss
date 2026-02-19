@@ -1,0 +1,26 @@
+/* ══════════════════════════════════════
+   App Layout Variables (Light & Dark)
+══════════════════════════════════════ */
+:root {
+  /* ── Light Theme ── */
+  --app-bg: #f8fafc;
+  --app-surface: #ffffff;
+  --app-border: #e2e8f0;
+  --app-text: #0f172a;
+  --app-text-muted: #64748b;
+  --app-hover: #f1f5f9;
+  --app-error-bg: #fef2f2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* ── Dark Theme (Premium Zinc) ── */
+    --app-bg: #09090b;
+    --app-surface: #18181b;
+    --app-border: #27272a;
+    --app-text: #fafafa;
+    --app-text-muted: #a1a1aa;
+    --app-hover: #27272a;
+    --app-error-bg: #450a0a;
+  }
+}
