@@ -9,6 +9,7 @@
       "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"],
       "@features/*": ["src/app/features/*"],
+      "@models/*": ["src/app/models/*"],
       "@env/*": ["src/environments/*"],
       "@layout/*": ["src/app/layout/*"]
     },

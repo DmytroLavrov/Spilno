@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AuthLayoutService } from './auth-layout.service';
+import { AuthLayoutService } from '@layout/auth-layout/auth-layout.service';
 
 @Component({
   selector: 'app-auth-layout',

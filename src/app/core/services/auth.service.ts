@@ -8,7 +8,7 @@ import {
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/models/user.model';
+import { User } from '@models/user.model';
 
 @Injectable({
   providedIn: 'root',
