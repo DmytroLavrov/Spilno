@@ -12,8 +12,8 @@
     margin: 0 auto 1.5rem;
 
     &.pending {
-      background: #eff6ff;
-      color: #3b82f6;
+      color: var(--p-blue-500);
+      background: color-mix(in srgb, var(--p-blue-500) 10%, transparent);
     }
   }
 
@@ -21,11 +21,11 @@
     font-size: 1.75rem;
     font-weight: 800;
     margin-bottom: 1rem;
-    color: #111827;
+    color: var(--app-text);
   }
 
   p {
-    color: #4b5563;
+    color: var(--app-text-muted);
     line-height: 1.6;
     margin-bottom: 2rem;
   }
