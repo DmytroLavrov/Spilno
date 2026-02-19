@@ -1,0 +1,149 @@
+.form-header {
+  margin-bottom: 2.5rem;
+  h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--app-text);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.03em;
+  }
+  p {
+    color: var(--app-text-muted);
+    font-size: 1rem;
+  }
+}
+
+.input-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--app-text);
+  }
+
+  input,
+  .p-inputtext {
+    width: 100% !important;
+    height: 48px !important;
+    padding: 0 1rem !important;
+    border-radius: 10px;
+    border: 1px solid var(--app-border);
+    background: var(--app-bg);
+    color: var(--app-text);
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: var(--app-text-muted);
+    }
+    &:hover {
+      border-color: var(--p-primary-400);
+    }
+    &:focus {
+      outline: none;
+      background: var(--app-surface);
+      border-color: var(--p-primary-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-primary-color) 20%, transparent) !important;
+    }
+  }
+
+  .p-password,
+  .p-inputmask {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .p-password .p-inputtext {
+    padding-right: 3rem !important;
+  }
+
+  .p-password svg,
+  .p-password-icon,
+  .p-icon {
+    position: absolute !important;
+    top: 50% !important;
+    right: 1rem !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+    color: var(--app-text-muted);
+    cursor: pointer;
+    z-index: 10;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--app-bg) inset !important;
+    -webkit-text-fill-color: var(--app-text) !important;
+  }
+
+  .ng-invalid.ng-touched > .p-inputtext,
+  .ng-invalid.ng-dirty > .p-inputtext,
+  input.ng-invalid.ng-touched,
+  input.ng-invalid.ng-dirty,
+  .p-inputwrapper.ng-invalid.ng-touched .p-inputtext,
+  .p-inputwrapper.ng-invalid.ng-dirty .p-inputtext {
+    border-color: var(--p-red-500) !important;
+    background-color: var(--app-error-bg) !important;
+
+    &:focus {
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-red-500) 20%, transparent) !important;
+    }
+  }
+}
+
+.auth-btn,
+.p-button.auth-btn {
+  margin-top: 1.5rem;
+  width: 100%;
+  height: 48px !important;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  background: var(--p-primary-color) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--p-primary-color) 30%, transparent) !important;
+  transition:
+    transform 0.1s,
+    box-shadow 0.2s,
+    filter 0.2s !important;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.1);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--p-primary-color) 40%, transparent) !important;
+  }
+  &:active:not(:disabled) {
+    transform: scale(0.98) !important;
+  }
+}
+
+.form-footer {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--app-border);
+  text-align: center;
+  color: var(--app-text-muted);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  a {
+    color: var(--p-primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  }
+}
