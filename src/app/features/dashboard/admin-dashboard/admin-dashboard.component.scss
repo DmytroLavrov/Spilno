@@ -1,0 +1,136 @@
+.dashboard-wrapper {
+  padding: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+  }
+}
+
+.dashboard-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+:host ::ng-deep {
+  .stat-card {
+    .p-card-body {
+      padding: 1.5rem;
+    }
+
+    .p-card-content {
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .stat-card--danger {
+    border-left: 4px solid var(--red-500);
+  }
+  .stat-card--warning {
+    border-left: 4px solid var(--orange-500);
+  }
+  .stat-card--success {
+    border-left: 4px solid var(--green-500);
+  }
+  .stat-card--info {
+    border-left: 4px solid var(--blue-500);
+  }
+
+  @media (min-width: 769px) {
+    .p-column-title {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .p-column-title {
+      display: inline-block;
+      font-weight: 600;
+      color: var(--text-color-secondary);
+      min-width: 90px;
+      margin-right: 0.5rem;
+    }
+
+    .p-datatable-tbody > tr > td {
+      display: flex;
+      align-items: center;
+      border: none !important;
+      padding: 0.5rem 1rem !important;
+    }
+
+    .p-datatable-tbody > tr {
+      border-bottom: 1px solid var(--app-border);
+      display: block;
+      padding: 0.5rem 0;
+    }
+
+    td.truncate {
+      max-width: 100%;
+      white-space: normal;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .p-datatable-tbody > tr > td {
+      padding: 0.5rem 0.5rem !important;
+    }
+  }
+}
+
+.stat-card__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-card__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-card__value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  line-height: 1;
+}
+
+.stat-card__icon {
+  font-size: 3.5rem;
+  color: var(--text-color);
+  opacity: 0.15;
+}
+
+.truncate {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
