@@ -13,7 +13,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 import { MaintenanceRequest, RequestStatus } from '@models/request.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -27,31 +27,35 @@ export class RequestService {
   private requestsCollection = collection(this.firestore, 'requests');
 
   public getRequests(): Observable<MaintenanceRequest[]> {
-    const user = this.authService.currentUser();
+    return this.authService.currentUser$.pipe(
+      switchMap((user) => {
+        // If the user is not logged in, return an empty array
+        if (!user) {
+          return of([]);
+        }
 
-    const q =
-      user?.role === 'admin'
-        ? // Admin sees all applications sorted by date
-          query(this.requestsCollection, orderBy('createdAt', 'desc'))
-        : // The resident sees only his own
-          query(
-            this.requestsCollection,
-            where('userId', '==', user?.id),
-            orderBy('createdAt', 'desc'),
-          );
+        const q =
+          user.role === 'admin'
+            ? query(this.requestsCollection, orderBy('createdAt', 'desc'))
+            : query(
+                this.requestsCollection,
+                where('userId', '==', user.id),
+                orderBy('createdAt', 'desc'),
+              );
 
-    return collectionData(q, { idField: 'id' }).pipe(
-      map((docs) =>
-        docs.map(
-          (d) =>
-            ({
-              ...d,
-              // Convert Firestore Timestamp → JS Date
-              createdAt: (d['createdAt'] as Timestamp).toDate(),
-              updatedAt: (d['updatedAt'] as Timestamp).toDate(),
-            }) as MaintenanceRequest,
-        ),
-      ),
+        return collectionData(q, { idField: 'id' }).pipe(
+          map((docs) =>
+            docs.map(
+              (d) =>
+                ({
+                  ...d,
+                  createdAt: (d['createdAt'] as Timestamp).toDate(),
+                  updatedAt: (d['updatedAt'] as Timestamp).toDate(),
+                }) as MaintenanceRequest,
+            ),
+          ),
+        );
+      }),
     );
   }
 
