@@ -1,12 +1,12 @@
 .layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 240px minmax(0, 1fr);
   min-height: 100vh;
   transition: grid-template-columns 0.25s ease;
 }
 
 .layout--collapsed {
-  grid-template-columns: 64px 1fr;
+  grid-template-columns: 64px minmax(0, 1fr);
 }
 
 .sidebar {
@@ -150,6 +150,10 @@
   transition:
     background-color 0.3s,
     border-color 0.3s;
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
 }
 
 .topbar__spacer {
@@ -204,11 +208,17 @@
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
+
+  overflow-x: hidden;
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 768px) {
   .layout {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   .sidebar {
