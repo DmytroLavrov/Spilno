@@ -1,0 +1,95 @@
+<div class="dashboard-wrapper">
+  <h1 class="dashboard-title">Панель керування</h1>
+
+  <div class="stats-grid">
+    <p-card styleClass="stat-card stat-card--danger">
+      <div class="stat-card__inner">
+        <span class="stat-card__label">Нових заявок</span>
+        <span class="stat-card__value">{{ newCount() }}</span>
+      </div>
+      <i class="pi pi-inbox stat-card__icon"></i>
+    </p-card>
+
+    <p-card styleClass="stat-card stat-card--warning">
+      <div class="stat-card__inner">
+        <span class="stat-card__label">В обробці</span>
+        <span class="stat-card__value">{{ inProgressCount() }}</span>
+      </div>
+      <i class="pi pi-spin pi-spinner stat-card__icon"></i>
+    </p-card>
+
+    <p-card styleClass="stat-card stat-card--success">
+      <div class="stat-card__inner">
+        <span class="stat-card__label">Виконано цього місяця</span>
+        <span class="stat-card__value">{{ doneThisMonthCount() }}</span>
+      </div>
+      <i class="pi pi-check-circle stat-card__icon"></i>
+    </p-card>
+
+    <p-card styleClass="stat-card stat-card--info">
+      <div class="stat-card__inner">
+        <span class="stat-card__label">Очікують реєстрації</span>
+        <span class="stat-card__value">{{ pendingUsersCount() }}</span>
+      </div>
+      <i class="pi pi-users stat-card__icon"></i>
+    </p-card>
+  </div>
+
+  <p-card header="Останні заявки" styleClass="mt-4">
+    <p-table
+      [value]="recentRequests()"
+      [rows]="5"
+      styleClass="p-datatable-sm"
+      responsiveLayout="stack"
+      breakpoint="768px"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Квартира</th>
+          <th>Тип</th>
+          <th>Опис</th>
+          <th>Статус</th>
+          <th></th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-req>
+        <tr>
+          <td>
+            <span class="p-column-title">Квартира</span>
+            № {{ req.apartmentNumber }}
+          </td>
+          <td>
+            <span class="p-column-title">Тип</span>
+            {{ req.type | titlecase }}
+          </td>
+          <td class="truncate">
+            <span class="p-column-title">Опис</span>
+            {{ req.description }}
+          </td>
+          <td>
+            <span class="p-column-title">Статус</span>
+            <p-tag [value]="statusLabel(req.status)" [severity]="statusSeverity(req.status)" />
+          </td>
+          <td>
+            <a [routerLink]="['/requests', req.id]">
+              <p-button icon="pi pi-arrow-right" [text]="true" size="small" />
+            </a>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="text-center">Заявок поки немає</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <div class="mt-3 text-right">
+      <a routerLink="/requests">
+        <p-button label="Всі заявки" icon="pi pi-list" [text]="true" />
+      </a>
+    </div>
+  </p-card>
+</div>

@@ -1,0 +1,55 @@
+<div class="dashboard-wrapper">
+  <h1 class="dashboard-title">
+    Вітаємо, {{ userName() }}
+    <span class="apartment-badge">Кв. {{ apartmentNumber() }}</span>
+  </h1>
+
+  <div class="resident-grid">
+    <p-card header="Мої заявки" styleClass="requests-card">
+      @if (myRequests().length === 0) {
+        <div class="empty-state">
+          <i class="pi pi-inbox"></i>
+          <p>У вас ще немає заявок</p>
+          <a routerLink="/requests/new">
+            <p-button label="Створити першу заявку" icon="pi pi-plus" />
+          </a>
+        </div>
+      } @else {
+        <p-timeline [value]="myRequests()" styleClass="request-timeline">
+          <ng-template pTemplate="content" let-req>
+            <div class="timeline-item">
+              <div class="timeline-item__header">
+                <span class="timeline-item__type">{{ req.type | titlecase }}</span>
+                <p-tag [value]="statusLabel(req.status)" [severity]="statusSeverity(req.status)" />
+              </div>
+              <p class="timeline-item__desc">{{ req.description }}</p>
+              <span class="timeline-item__date"> {{ req.createdAt | date: 'dd.MM.yyyy' }} </span>
+            </div>
+          </ng-template>
+        </p-timeline>
+
+        <div class="mt-3">
+          <a routerLink="/requests">
+            <p-button label="Всі мої заявки" icon="pi pi-list" [text]="true" />
+          </a>
+        </div>
+      }
+    </p-card>
+
+    <div class="announcements-col">
+      <p-card>
+        <p class="text-center text-color-secondary">Оголошень поки немає</p>
+      </p-card>
+    </div>
+  </div>
+
+  <a routerLink="/requests/new" class="fab">
+    <p-button
+      icon="pi pi-plus"
+      [rounded]="true"
+      size="large"
+      pTooltip="Нова заявка"
+      tooltipPosition="left"
+    />
+  </a>
+</div>

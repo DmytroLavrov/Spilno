@@ -1,1 +1,5 @@
-<p>dashboard works!</p>
+@if (authService.currentUser()?.role === 'admin') {
+  <app-admin-dashboard />
+} @else {
+  <app-resident-dashboard />
+}
