@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Injector, runInInjectionContext } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -23,6 +23,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class RequestService {
   private firestore = inject(Firestore);
   private authService = inject(AuthService);
+  private injector = inject(Injector);
 
   private requestsCollection = collection(this.firestore, 'requests');
 
@@ -34,27 +35,29 @@ export class RequestService {
           return of([]);
         }
 
-        const q =
-          user.role === 'admin'
-            ? query(this.requestsCollection, orderBy('createdAt', 'desc'))
-            : query(
-                this.requestsCollection,
-                where('userId', '==', user.id),
-                orderBy('createdAt', 'desc'),
-              );
+        return runInInjectionContext(this.injector, () => {
+          const q =
+            user.role === 'admin'
+              ? query(this.requestsCollection, orderBy('createdAt', 'desc'))
+              : query(
+                  this.requestsCollection,
+                  where('userId', '==', user.id),
+                  orderBy('createdAt', 'desc'),
+                );
 
-        return collectionData(q, { idField: 'id' }).pipe(
-          map((docs) =>
-            docs.map(
-              (d) =>
-                ({
-                  ...d,
-                  createdAt: (d['createdAt'] as Timestamp).toDate(),
-                  updatedAt: (d['updatedAt'] as Timestamp).toDate(),
-                }) as MaintenanceRequest,
+          return collectionData(q, { idField: 'id' }).pipe(
+            map((docs) =>
+              docs.map(
+                (d) =>
+                  ({
+                    ...d,
+                    createdAt: (d['createdAt'] as Timestamp).toDate(),
+                    updatedAt: (d['updatedAt'] as Timestamp).toDate(),
+                  }) as MaintenanceRequest,
+              ),
             ),
-          ),
-        );
+          );
+        });
       }),
     );
   }
@@ -69,27 +72,33 @@ export class RequestService {
     const user = this.authService.currentUser();
     if (!user) throw new Error('Unauthorized');
 
-    await addDoc(this.requestsCollection, {
-      ...data,
-      userId: user.id,
-      userName: user.name,
-      apartmentNumber: user.apartmentNumber,
-      status: 'new' as RequestStatus,
-      createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now(),
+    await runInInjectionContext(this.injector, async () => {
+      await addDoc(this.requestsCollection, {
+        ...data,
+        userId: user.id,
+        userName: user.name,
+        apartmentNumber: user.apartmentNumber,
+        status: 'new' as RequestStatus,
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
+      });
     });
   }
 
   public async updateStatus(requestId: string, status: RequestStatus): Promise<void> {
-    const ref = doc(this.firestore, 'requests', requestId);
-    await updateDoc(ref, {
-      status,
-      updatedAt: Timestamp.now(),
+    await runInInjectionContext(this.injector, async () => {
+      const ref = doc(this.firestore, 'requests', requestId);
+      await updateDoc(ref, {
+        status,
+        updatedAt: Timestamp.now(),
+      });
     });
   }
 
   public async deleteRequest(requestId: string): Promise<void> {
-    const ref = doc(this.firestore, 'requests', requestId);
-    await deleteDoc(ref);
+    await runInInjectionContext(this.injector, async () => {
+      const ref = doc(this.firestore, 'requests', requestId);
+      await deleteDoc(ref);
+    });
   }
 }
