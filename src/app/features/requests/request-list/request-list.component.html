@@ -1,0 +1,188 @@
+<div class="requests">
+  <div class="requests-header">
+    <div>
+      <h1 class="requests-title">Заявки</h1>
+      <span class="requests-subtitle">
+        Всього: {{ filtered().length }}
+        @if (activeFilter()) {
+          · Фільтр активний
+        }
+      </span>
+    </div>
+
+    @if (isResident()) {
+      <p-button label="Нова заявка" icon="pi pi-plus" (onClick)="openNewRequestDialog()" />
+    }
+  </div>
+
+  @if (isAdmin()) {
+    <div class="filters-bar">
+      <p-select
+        [options]="statusOptions"
+        [(ngModel)]="selectedStatus"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Статус"
+        (onChange)="applyFilter()"
+        styleClass="filter-dropdown"
+      />
+
+      <div class="filter-search-wrapper">
+        <i class="pi pi-search search-icon"></i>
+        <input
+          pInputText
+          type="text"
+          placeholder="Пошук по квартирі або опису..."
+          [(ngModel)]="searchQuery"
+          (input)="applyFilter()"
+          class="filter-search"
+        />
+      </div>
+
+      @if (activeFilter()) {
+        <p-button
+          label="Скинути"
+          icon="pi pi-times"
+          [text]="true"
+          severity="secondary"
+          (onClick)="resetFilter()"
+        />
+      }
+    </div>
+  }
+
+  <p-table
+    [value]="filtered()"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading()"
+    styleClass="p-datatable-sm p-datatable-striped"
+    [globalFilterFields]="['description', 'apartmentNumber', 'userName']"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="apartmentNumber">Квартира <p-sortIcon field="apartmentNumber" /></th>
+        @if (isAdmin()) {
+          <th>Мешканець</th>
+        }
+        <th>Тип</th>
+        <th>Опис</th>
+        <th pSortableColumn="createdAt">Дата <p-sortIcon field="createdAt" /></th>
+        <th>Статус</th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-req>
+      <tr [class.row--new]="req.status === 'new'">
+        <td>
+          <span class="p-column-title">Квартира</span>
+          <span class="cell-value"
+            ><strong>№ {{ req.apartmentNumber }}</strong></span
+          >
+        </td>
+        @if (isAdmin()) {
+          <td>
+            <span class="p-column-title">Мешканець</span>
+            <span class="cell-value">{{ req.userName }}</span>
+          </td>
+        }
+        <td>
+          <span class="p-column-title">Тип</span>
+          <span class="cell-value">{{ typeLabel(req.type) }}</span>
+        </td>
+        <td class="td-description">
+          <span class="p-column-title">Опис</span>
+          <span
+            class="description-cell cell-value"
+            [pTooltip]="req.description"
+            tooltipPosition="top"
+          >
+            {{ req.description }}
+          </span>
+        </td>
+        <td>
+          <span class="p-column-title">Дата</span>
+          <span class="cell-value">{{ req.createdAt | date: 'dd.MM.yy HH:mm' }}</span>
+        </td>
+
+        <td>
+          <span class="p-column-title">Статус</span>
+          <div class="cell-value">
+            @if (isAdmin()) {
+              <p-select
+                [options]="statusOptions.slice(1)"
+                [ngModel]="req.status"
+                optionLabel="label"
+                optionValue="value"
+                (onChange)="onStatusChange(req, $event.value)"
+                styleClass="status-dropdown"
+                appendTo="body"
+              >
+                <ng-template pTemplate="selectedItem" let-item>
+                  <p-tag [value]="item.label" [severity]="statusSeverity(item.value)" />
+                </ng-template>
+              </p-select>
+            } @else {
+              <p-tag [value]="statusLabel(req.status)" [severity]="statusSeverity(req.status)" />
+            }
+          </div>
+        </td>
+
+        <td class="td-actions">
+          <span class="p-column-title">Дії</span>
+          <div class="actions cell-value flex gap-2">
+            <a [routerLink]="['/requests', req.id]" class="no-underline">
+              <p-button
+                icon="pi pi-eye"
+                [text]="true"
+                severity="info"
+                size="small"
+                pTooltip="Деталі"
+                tooltipPosition="bottom"
+              />
+            </a>
+
+            @if (canDelete(req)) {
+              <p-button
+                icon="pi pi-trash"
+                [text]="true"
+                severity="danger"
+                size="small"
+                pTooltip="Видалити"
+                tooltipPosition="bottom"
+                (onClick)="confirmDelete(req)"
+              />
+            }
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="isAdmin() ? 7 : 6" class="empty-message">
+          <i class="pi pi-inbox"></i>
+          <span>Заявок не знайдено</span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-confirmDialog [style]="{ 'max-width': '90vw' }" />
+<p-toast position="bottom-right" />
+<p-dialog
+  header="Нова заявка"
+  [(visible)]="isDialogVisible"
+  (onHide)="onDialogHide()"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw', '576px': '90vw' }"
+  [style]="{ width: '500px' }"
+  [draggable]="false"
+  [resizable]="false"
+  [focusOnShow]="false"
+>
+  <app-request-form (completed)="onRequestCreated()" (canceled)="isDialogVisible.set(false)" />
+</p-dialog>

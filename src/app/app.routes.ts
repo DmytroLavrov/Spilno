@@ -14,8 +14,7 @@ export const routes: Routes = [
     loadChildren: () => import('@features/auth/auth.routes').then((m) => m.authRoutes),
   },
 
-  // --- TEST ROUTE ---
-
+  // --- Protected routes з Main Layout ---
   {
     path: '',
     canActivate: [authGuard],
@@ -26,6 +25,11 @@ export const routes: Routes = [
         path: 'dashboard',
         loadComponent: () =>
           import('@features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      },
+      {
+        path: 'requests',
+        loadChildren: () =>
+          import('@features/requests/requests.routes').then((m) => m.requestsRoutes),
       },
     ],
   },

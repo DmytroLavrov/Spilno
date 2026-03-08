@@ -1,0 +1,311 @@
+.requests {
+  padding: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 1rem 0.5rem;
+  }
+}
+
+.requests-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+
+  .requests-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: var(--p-text-color);
+  }
+
+  .requests-subtitle {
+    font-size: 0.875rem;
+    color: var(--p-text-muted-color);
+  }
+}
+
+.filters-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .filter-dropdown {
+    min-width: 220px;
+  }
+
+  .filter-search-wrapper {
+    flex: 1;
+    min-width: 250px;
+
+    .filter-search {
+      width: 100%;
+
+      @media (max-width: 480px) {
+        font-size: 14px;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .filter-dropdown,
+    .filter-search-wrapper {
+      width: 100%;
+      min-width: 100%;
+    }
+
+    button {
+      align-self: flex-start;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+:host ::ng-deep {
+  /* Desktop */
+  @media (min-width: 769px) {
+    .p-column-title {
+      display: none !important;
+    }
+
+    .description-cell {
+      max-width: 250px;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  /* Mobiles (Card view) */
+  @media (max-width: 768px) {
+    .p-datatable-thead {
+      display: none !important;
+    }
+
+    .p-column-title {
+      display: inline-block;
+      font-weight: 600;
+      color: var(--p-text-muted-color);
+      min-width: 100px;
+      margin-right: 1rem;
+    }
+
+    .p-datatable-tbody > tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      padding: 0;
+      background-color: var(--p-content-background);
+      border: 1px solid var(--p-content-border-color);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+
+      &:nth-child(even) {
+        background-color: var(--p-datatable-header-cell-background);
+      }
+    }
+
+    .p-datatable-tbody > tr > td {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: none !important;
+      padding: 0.75rem 1rem !important;
+      border-bottom: 1px solid var(--p-content-border-color) !important;
+
+      &:last-child {
+        border-bottom: none !important;
+      }
+    }
+
+    .cell-value {
+      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      flex: 1;
+    }
+
+    .td-description {
+      align-items: flex-start !important;
+    }
+
+    .description-cell {
+      max-width: 100%;
+      text-align: right;
+      white-space: normal;
+      word-break: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .status-dropdown {
+      width: max-content !important;
+      min-width: 140px;
+      text-align: left;
+    }
+
+    .td-actions .cell-value {
+      justify-content: flex-end;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .p-datatable-tbody > tr > td {
+      padding: 0.6rem 0.75rem !important;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    .p-column-title {
+      min-width: 80px;
+      margin-right: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .status-dropdown {
+      max-width: 100%;
+      min-width: 130px;
+    }
+
+    .cell-value {
+      font-size: 0.9rem;
+    }
+
+    .description-cell {
+      word-break: break-all;
+    }
+  }
+}
+
+// ── Highlighting "New" ──
+.row--new {
+  @media (min-width: 769px) {
+    td:first-child {
+      box-shadow: inset 3px 0 0 0 var(--p-red-500, #ef4444);
+    }
+  }
+
+  @media (max-width: 768px) {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background-color: var(--p-red-500, #ef4444);
+      z-index: 1;
+    }
+  }
+}
+
+.empty-message {
+  text-align: center;
+  padding: 4rem 1rem !important;
+  color: var(--p-text-muted-color);
+  background: transparent !important;
+
+  i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+  }
+}
+
+.filter-search-wrapper {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+
+  .search-icon {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--p-text-muted-color);
+    z-index: 1;
+  }
+
+  .filter-search {
+    width: 100%;
+  }
+
+  @media (max-width: 576px) {
+    .filter-dropdown,
+    .filter-search-wrapper {
+      width: 100%;
+      min-width: 100%;
+    }
+  }
+}
+
+:host ::ng-deep {
+  /* Desktop */
+  @media (min-width: 769px) {
+    .p-datatable-wrapper {
+      overflow-x: auto;
+    }
+
+    .p-datatable-table {
+      min-width: 900px;
+    }
+
+    .p-datatable-thead > tr > th {
+      white-space: nowrap;
+    }
+
+    .p-datatable-tbody > tr > td {
+      white-space: nowrap;
+    }
+
+    .p-column-title {
+      display: none !important;
+    }
+
+    .description-cell {
+      max-width: 250px;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+// ── Toast (pop-up messages) adaptation for mobile ──
+:host ::ng-deep {
+  @media (max-width: 480px) {
+    .p-toast {
+      width: 90vw !important;
+      left: 50% !important;
+      right: auto !important;
+      transform: translateX(-50%) !important;
+      bottom: 1rem !important;
+    }
+
+    .p-toast-message-content {
+      align-items: center;
+      padding: 0.75rem !important;
+    }
+
+    .p-toast-detail {
+      word-break: break-word;
+    }
+  }
+}
