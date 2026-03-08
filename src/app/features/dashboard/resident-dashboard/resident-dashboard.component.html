@@ -10,7 +10,7 @@
         <div class="empty-state">
           <i class="pi pi-inbox"></i>
           <p>У вас ще немає заявок</p>
-          <a routerLink="/requests/new">
+          <a routerLink="/requests" [queryParams]="{ new: true }">
             <p-button label="Створити першу заявку" icon="pi pi-plus" />
           </a>
         </div>
@@ -19,7 +19,7 @@
           <ng-template pTemplate="content" let-req>
             <div class="timeline-item">
               <div class="timeline-item__header">
-                <span class="timeline-item__type">{{ req.type | titlecase }}</span>
+                <span class="timeline-item__type">{{ typeLabel(req.type) }}</span>
                 <p-tag [value]="statusLabel(req.status)" [severity]="statusSeverity(req.status)" />
               </div>
               <p class="timeline-item__desc">{{ req.description }}</p>
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <a routerLink="/requests/new" class="fab">
+  <a routerLink="/requests" [queryParams]="{ new: true }" class="fab">
     <p-button
       icon="pi pi-plus"
       [rounded]="true"

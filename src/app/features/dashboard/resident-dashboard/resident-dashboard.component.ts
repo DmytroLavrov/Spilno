@@ -3,25 +3,23 @@ import { AuthService } from '@core/services/auth.service';
 import { RequestService } from '@core/services/request.service';
 import { RequestStatus } from '@models/request.model';
 import { RouterLink } from '@angular/router';
-import { DatePipe, TitleCasePipe } from '@angular/common';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
+import { DatePipe } from '@angular/common';
+import { Card } from 'primeng/card';
+import { Button } from 'primeng/button';
 import { TimelineModule } from 'primeng/timeline';
-import { TagModule } from 'primeng/tag';
+import { Tag } from 'primeng/tag';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
+const TYPE_LABELS: Record<string, string> = {
+  plumbing: '🔧 Сантехніка',
+  electrical: '⚡ Електрика',
+  other: '📋 Інше',
+};
+
 @Component({
   selector: 'app-resident-dashboard',
-  imports: [
-    RouterLink,
-    TitleCasePipe,
-    DatePipe,
-    CardModule,
-    ButtonModule,
-    TimelineModule,
-    TagModule,
-  ],
+  imports: [RouterLink, DatePipe, Card, Button, TimelineModule, Tag],
   templateUrl: './resident-dashboard.component.html',
   styleUrl: './resident-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,5 +52,9 @@ export class ResidentDashboardComponent {
     };
 
     return map[status];
+  }
+
+  public typeLabel(type: string): string {
+    return TYPE_LABELS[type] || type;
   }
 }
