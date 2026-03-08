@@ -2,10 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { DividerModule } from 'primeng/divider';
-import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
-import { BadgeModule } from 'primeng/badge';
-import { ButtonModule } from 'primeng/button';
+import { Badge } from 'primeng/badge';
+import { Button } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { DrawerModule } from 'primeng/drawer';
 
@@ -24,10 +23,9 @@ interface NavItem {
     RouterLink,
     RouterLinkActive,
     DividerModule,
-    RippleModule,
     TooltipModule,
-    BadgeModule,
-    ButtonModule,
+    Badge,
+    Button,
     AvatarModule,
     DrawerModule,
   ],

@@ -1,24 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { FirebaseError } from 'firebase/app';
-import { CardModule } from 'primeng/card';
-import { MessageModule } from 'primeng/message';
-import { PasswordModule } from 'primeng/password';
-import { ButtonModule } from 'primeng/button';
+import { Password } from 'primeng/password';
+import { Button } from 'primeng/button';
 import { AuthLayoutService } from '@layout/auth-layout/auth-layout.service';
 
 @Component({
   selector: 'app-login',
-  imports: [
-    ReactiveFormsModule,
-    CardModule,
-    MessageModule,
-    PasswordModule,
-    ButtonModule,
-    RouterLink,
-  ],
+  imports: [ReactiveFormsModule, RouterLink, Password, Button],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
