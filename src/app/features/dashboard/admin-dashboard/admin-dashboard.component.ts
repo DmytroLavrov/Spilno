@@ -2,17 +2,22 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { RequestService } from '@core/services/request.service';
 import { RequestStatus } from '@models/request.model';
 import { RouterLink } from '@angular/router';
-import { TitleCasePipe } from '@angular/common';
-import { CardModule } from 'primeng/card';
+import { Card } from 'primeng/card';
 import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { ButtonModule } from 'primeng/button';
+import { Tag } from 'primeng/tag';
+import { Button } from 'primeng/button';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
+const TYPE_LABELS: Record<string, string> = {
+  plumbing: '🔧 Сантехніка',
+  electrical: '⚡ Електрика',
+  other: '📋 Інше',
+};
+
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [RouterLink, TitleCasePipe, CardModule, TableModule, TagModule, ButtonModule],
+  imports: [RouterLink, Card, TableModule, Tag, Button],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,7 +44,7 @@ export class AdminDashboardComponent {
     }).length;
   });
 
-  pendingUsersCount = computed(() => 0); // 0 for now, AnnouncementService will be added later
+  public pendingUsersCount = computed(() => 0); // 0 for now, AnnouncementService will be added later
 
   public recentRequests = computed(() => this.requestService.requests().slice(0, 5));
 
@@ -63,5 +68,9 @@ export class AdminDashboardComponent {
     };
 
     return map[status];
+  }
+
+  public typeLabel(type: string): string {
+    return TYPE_LABELS[type] || type;
   }
 }
