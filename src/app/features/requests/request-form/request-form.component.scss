@@ -1,0 +1,80 @@
+.form-page {
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.char-count {
+  font-weight: 400;
+  color: var(--p-text-muted-color);
+  font-size: 0.8rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--p-surface-200);
+
+  // ── Adaptation for narrow mobile phones ──
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 0.75rem;
+
+    p-button {
+      width: 100%;
+    }
+
+    ::ng-deep .p-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+.w-full {
+  width: 100%;
+}
+
+textarea {
+  resize: none !important;
+  height: 120px !important;
+  max-height: 120px !important;
+  overflow-y: auto;
+
+  padding-right: 1.5rem !important;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--p-content-border-color, #52525b);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--p-text-muted-color, #a1a1aa);
+  }
+}

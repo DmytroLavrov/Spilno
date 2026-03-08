@@ -1,0 +1,52 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label for="type">Тип проблеми *</label>
+    <p-select
+      inputId="type"
+      formControlName="type"
+      [options]="typeOptions"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Оберіть тип"
+      styleClass="w-full"
+    />
+    @if (form.get('type')?.invalid && form.get('type')?.touched) {
+      <p-message severity="error" text="Оберіть тип заявки" />
+    }
+  </div>
+
+  <div class="field">
+    <label for="description">
+      Опис проблеми *
+      <span class="char-count"> {{ form.get('description')?.value?.length ?? 0 }}/500 </span>
+    </label>
+    <textarea
+      pInputTextarea
+      inputId="description"
+      formControlName="description"
+      rows="4"
+      placeholder="Опишіть проблему детально — це допоможе швидше її вирішити"
+      class="w-full"
+    ></textarea>
+    @if (form.get('description')?.invalid && form.get('description')?.touched) {
+      <p-message severity="error" [text]="descriptionError()" />
+    }
+  </div>
+
+  <div class="form-actions">
+    <p-button
+      label="Скасувати"
+      [text]="true"
+      severity="secondary"
+      (onClick)="cancel()"
+      [disabled]="submitting()"
+    />
+    <p-button
+      type="submit"
+      label="Надіслати заявку"
+      icon="pi pi-send"
+      [loading]="submitting()"
+      [disabled]="form.invalid"
+    />
+  </div>
+</form>

@@ -1,0 +1,131 @@
+<div class="detail-page">
+  @if (loading()) {
+    <p-card styleClass="detail-card">
+      <p-skeleton height="2rem" width="60%" styleClass="mb-3" />
+      <p-skeleton height="1rem" styleClass="mb-2" />
+      <p-skeleton height="1rem" width="80%" styleClass="mb-2" />
+      <p-skeleton height="4rem" styleClass="mb-3" />
+      <p-skeleton height="1rem" width="40%" />
+    </p-card>
+  } @else if (request()) {
+    <p-card styleClass="detail-card">
+      <div class="detail-header">
+        <div class="detail-header__left">
+          <p-button
+            icon="pi pi-arrow-left"
+            [text]="true"
+            severity="secondary"
+            (onClick)="goBack()"
+            pTooltip="Назад"
+          />
+          <div>
+            <h1 class="detail-title">Заявка №{{ request()!.id.slice(0, 8) }}</h1>
+            <p-tag
+              [value]="statusLabel(request()!.status)"
+              [severity]="statusSeverity(request()!.status)"
+              styleClass="detail-status"
+            />
+          </div>
+        </div>
+
+        @if (canDelete()) {
+          <p-button
+            icon="pi pi-trash"
+            label="Видалити"
+            severity="danger"
+            [outlined]="true"
+            (onClick)="confirmDelete()"
+          />
+        }
+      </div>
+
+      <p-divider />
+
+      <div class="detail-grid">
+        <div class="detail-field">
+          <span class="detail-field__label">Квартира</span>
+          <span class="detail-field__value">№ {{ request()!.apartmentNumber }}</span>
+        </div>
+
+        @if (isAdmin()) {
+          <div class="detail-field">
+            <span class="detail-field__label">Мешканець</span>
+            <span class="detail-field__value">{{ request()!.userName }}</span>
+          </div>
+        }
+
+        <div class="detail-field">
+          <span class="detail-field__label">Тип проблеми</span>
+          <span class="detail-field__value">{{ typeLabel(request()!.type) }}</span>
+        </div>
+
+        <div class="detail-field">
+          <span class="detail-field__label">Дата створення</span>
+          <span class="detail-field__value">{{
+            request()!.createdAt | date: 'dd.MM.yyyy, HH:mm'
+          }}</span>
+        </div>
+
+        <div class="detail-field">
+          <span class="detail-field__label">Останнє оновлення</span>
+          <span class="detail-field__value">{{
+            request()!.updatedAt | date: 'dd.MM.yyyy, HH:mm'
+          }}</span>
+        </div>
+      </div>
+
+      <p-divider />
+
+      <div class="detail-section">
+        <h3 class="detail-section__title">Опис проблеми</h3>
+        <p class="detail-section__content">{{ request()!.description }}</p>
+      </div>
+
+      @if (isAdmin()) {
+        <p-divider />
+        <div class="detail-actions">
+          <h3 class="detail-actions__title">Керування заявкою</h3>
+          <div class="detail-actions__buttons">
+            @if (request()!.status === 'new') {
+              <p-button
+                label="Взяти в роботу"
+                icon="pi pi-play"
+                severity="warn"
+                (onClick)="changeStatus('in_progress')"
+              />
+            }
+            @if (request()!.status === 'in_progress') {
+              <p-button
+                label="Позначити виконаною"
+                icon="pi pi-check"
+                severity="success"
+                (onClick)="changeStatus('done')"
+              />
+            }
+            @if (request()!.status !== 'rejected') {
+              <p-button
+                label="Відхилити"
+                icon="pi pi-times"
+                severity="danger"
+                [outlined]="true"
+                (onClick)="changeStatus('rejected')"
+              />
+            }
+          </div>
+        </div>
+      }
+    </p-card>
+  } @else {
+    <p-card>
+      <div class="empty-state">
+        <i class="pi pi-exclamation-circle"></i>
+        <h2>Заявку не знайдено</h2>
+        <p>Можливо, вона була видалена або у вас немає доступу</p>
+        <p-button label="Повернутися до списку" icon="pi pi-arrow-left" (onClick)="goBack()" />
+      </div>
+    </p-card>
+  }
+</div>
+
+<p-confirmDialog [style]="{ 'max-width': '90vw' }" />
+<p-toast position="bottom-right" />
