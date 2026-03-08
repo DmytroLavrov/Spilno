@@ -2,25 +2,15 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@core/services/auth.service';
 import { FirebaseError } from 'firebase/app';
-import { CardModule } from 'primeng/card';
-import { MessageModule } from 'primeng/message';
-import { PasswordModule } from 'primeng/password';
-import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { InputMaskModule } from 'primeng/inputmask';
+import { Password } from 'primeng/password';
+import { Button } from 'primeng/button';
 import { AuthLayoutService } from '@layout/auth-layout/auth-layout.service';
 
 @Component({
   selector: 'app-register',
-  imports: [
-    ReactiveFormsModule,
-    CardModule,
-    MessageModule,
-    PasswordModule,
-    ButtonModule,
-    RouterLink,
-    InputMaskModule,
-  ],
+  imports: [ReactiveFormsModule, RouterLink, InputMaskModule, Password, Button],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

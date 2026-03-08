@@ -73,8 +73,4 @@ export class AuthService {
     this.currentUser.set(null);
     this.router.navigate(['/auth/login']);
   }
-
-  public isAdmin(): boolean {
-    return this.currentUser()?.role === 'admin';
-  }
 }

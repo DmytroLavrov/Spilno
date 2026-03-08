@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
 import { AuthLayoutService } from '@layout/auth-layout/auth-layout.service';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-rejected',
-  imports: [CardModule, ButtonModule],
+  imports: [Button],
   templateUrl: './rejected.component.html',
   styleUrl: './rejected.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
