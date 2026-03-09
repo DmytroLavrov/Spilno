@@ -8,6 +8,7 @@ import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { TimelineModule } from 'primeng/timeline';
 import { Tag } from 'primeng/tag';
+import { AnnouncementService } from '@core/services/announcement.service';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -27,6 +28,9 @@ const TYPE_LABELS: Record<string, string> = {
 export class ResidentDashboardComponent {
   private requestService = inject(RequestService);
   private authService = inject(AuthService);
+  private announcementService = inject(AnnouncementService);
+
+  public announcements = this.announcementService.announcements;
 
   public myRequests = computed(() => this.requestService.requests().slice(0, 5));
 

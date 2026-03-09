@@ -37,9 +37,31 @@
     </p-card>
 
     <div class="announcements-col">
-      <p-card>
-        <p class="text-center text-color-secondary">Оголошень поки немає</p>
-      </p-card>
+      @for (ann of announcements(); track ann.id; let idx = $index) {
+        @if (idx < 3) {
+          <p-card
+            [styleClass]="
+              ann.important ? 'announcement-card announcement-card--important' : 'announcement-card'
+            "
+          >
+            @if (ann.important) {
+              <span class="important-badge">
+                <i class="pi pi-exclamation-triangle"></i> Важливо
+              </span>
+            }
+            <h3 class="announcement-title">{{ ann.title }}</h3>
+            <p class="announcement-content">{{ ann.content }}</p>
+
+            <span class="announcement-date">
+              <i class="pi pi-calendar"></i> {{ ann.createdAt | date: 'dd.MM.yyyy' }}
+            </span>
+          </p-card>
+        }
+      } @empty {
+        <p-card>
+          <p class="text-center text-color-secondary">Оголошень поки немає</p>
+        </p-card>
+      }
     </div>
   </div>
 
