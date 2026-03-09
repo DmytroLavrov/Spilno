@@ -1,0 +1,52 @@
+<div class="announcements">
+  <div class="announcements-header">
+    <div>
+      <h1 class="announcements-title">Оголошення</h1>
+      <span class="announcements-subtitle">
+        Всього: {{ announcements().length }} · Важливих: {{ importantCount() }}
+      </span>
+    </div>
+  </div>
+
+  @if (announcements().length === 0) {
+    <div class="empty-state">
+      <i class="pi pi-megaphone"></i>
+      <p>Оголошень поки немає</p>
+    </div>
+  } @else {
+    <div class="announcements-list">
+      @for (ann of announcements(); track ann.id) {
+        @defer (on viewport) {
+          <div class="announcement-card" [class.announcement-card--important]="ann.important">
+            <div class="announcement-card__body">
+              <div class="announcement-card__header">
+                <div class="announcement-card__meta">
+                  @if (ann.important) {
+                    <span class="important-badge">
+                      <i class="pi pi-exclamation-triangle"></i>
+                      Важливо
+                    </span>
+                  }
+                  <h2 class="announcement-card__title">{{ ann.title }}</h2>
+                </div>
+              </div>
+
+              <p class="announcement-card__content">{{ ann.content }}</p>
+
+              <span class="announcement-card__date">
+                <i class="pi pi-calendar"></i>
+                {{ ann.createdAt | date: 'dd.MM.yyyy, HH:mm' }}
+              </span>
+            </div>
+          </div>
+        } @placeholder (minimum 150ms) {
+          <div class="skeleton-card">
+            <p-skeleton height="1.5rem" width="60%" styleClass="mb-2" />
+            <p-skeleton height="1rem" styleClass="mb-1" />
+            <p-skeleton height="1rem" width="80%" />
+          </div>
+        }
+      }
+    </div>
+  }
+</div>
