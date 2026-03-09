@@ -1,0 +1,98 @@
+<div class="announcements">
+  <div class="announcements-header">
+    <div>
+      <h1 class="announcements-title">Оголошення</h1>
+      <span class="announcements-subtitle">
+        Всього: {{ announcements().length }} · Важливих: {{ importantCount() }}
+      </span>
+    </div>
+
+    @if (isAdmin()) {
+      <p-button label="Нове оголошення" icon="pi pi-plus" (onClick)="openForm()" />
+    }
+  </div>
+
+  @if (announcements().length === 0) {
+    <div class="empty-state">
+      <i class="pi pi-megaphone"></i>
+      <p>Оголошень поки немає</p>
+      @if (isAdmin()) {
+        <p-button label="Створити перше оголошення" icon="pi pi-plus" (onClick)="openForm()" />
+      }
+    </div>
+  } @else {
+    <div class="announcements-list">
+      @for (ann of announcements(); track ann.id) {
+        @defer (on viewport) {
+          <div class="announcement-card" [class.announcement-card--important]="ann.important">
+            <div class="announcement-card__body">
+              <div class="announcement-card__header">
+                <div class="announcement-card__meta">
+                  @if (ann.important) {
+                    <span class="important-badge">
+                      <i class="pi pi-exclamation-triangle"></i>
+                      Важливо
+                    </span>
+                  }
+                  <h2 class="announcement-card__title">{{ ann.title }}</h2>
+                </div>
+
+                @if (isAdmin()) {
+                  <div class="announcement-card__actions">
+                    <p-button
+                      icon="pi pi-pencil"
+                      [text]="true"
+                      size="small"
+                      pTooltip="Редагувати"
+                      (onClick)="openForm(ann)"
+                    />
+                    <p-button
+                      icon="pi pi-trash"
+                      [text]="true"
+                      severity="danger"
+                      size="small"
+                      pTooltip="Видалити"
+                      (onClick)="confirmDelete(ann)"
+                    />
+                  </div>
+                }
+              </div>
+
+              <p class="announcement-card__content">{{ ann.content }}</p>
+
+              <span class="announcement-card__date">
+                <i class="pi pi-calendar"></i>
+                {{ ann.createdAt | date: 'dd.MM.yyyy, HH:mm' }}
+              </span>
+            </div>
+          </div>
+        } @placeholder (minimum 150ms) {
+          <div class="skeleton-card">
+            <p-skeleton height="1.5rem" width="60%" styleClass="mb-2" />
+            <p-skeleton height="1rem" styleClass="mb-1" />
+            <p-skeleton height="1rem" width="80%" />
+          </div>
+        }
+      }
+    </div>
+  }
+</div>
+
+<p-dialog
+  [(visible)]="formVisible"
+  [header]="editingAnnouncement() ? 'Редагувати оголошення' : 'Нове оголошення'"
+  [modal]="true"
+  [draggable]="false"
+  (onHide)="closeForm()"
+  [style]="{ width: '500px', 'max-width': '90vw' }"
+>
+  <app-announcement-form
+    [announcement]="editingAnnouncement()"
+    [submitting]="submitting()"
+    (formSubmit)="handleSubmit($event)"
+    (formCancel)="closeForm()"
+  />
+</p-dialog>
+
+<p-confirmDialog />
+<p-toast position="bottom-right" />

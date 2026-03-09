@@ -31,6 +31,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('@features/requests/requests.routes').then((m) => m.requestsRoutes),
       },
+      {
+        path: 'announcements',
+        loadChildren: () =>
+          import('@features/announcements/announcements.routes').then((m) => m.announcementsRoutes),
+      },
     ],
   },
 

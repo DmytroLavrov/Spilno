@@ -6,6 +6,7 @@ import { Card } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
 import { Button } from 'primeng/button';
+import { AnnouncementService } from '@core/services/announcement.service';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -24,6 +25,7 @@ const TYPE_LABELS: Record<string, string> = {
 })
 export class AdminDashboardComponent {
   private requestService = inject(RequestService);
+  private announcementService = inject(AnnouncementService);
 
   public newCount = computed(
     () => this.requestService.requests().filter((r) => r.status === 'new').length,
@@ -44,7 +46,7 @@ export class AdminDashboardComponent {
     }).length;
   });
 
-  public pendingUsersCount = computed(() => 0); // 0 for now, AnnouncementService will be added later
+  public pendingUsersCount = this.announcementService.pendingUsersCount;
 
   public recentRequests = computed(() => this.requestService.requests().slice(0, 5));
 

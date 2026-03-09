@@ -1,0 +1,219 @@
+.announcements {
+  padding: 1.5rem;
+  max-width: 1400px;
+
+  @media (max-width: 768px) {
+    padding: 1rem 0.5rem;
+  }
+}
+
+.announcements-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+
+  .announcements-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem 0;
+    color: var(--p-text-color);
+
+    @media (max-width: 480px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  .announcements-subtitle {
+    font-size: 0.9rem;
+    color: var(--p-text-muted-color);
+    font-weight: 500;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 1rem;
+  color: var(--p-text-muted-color);
+  background: var(--p-content-background, #1e1e1e);
+  border-radius: 16px;
+  border: 2px dashed var(--p-content-border-color, #3f3f46);
+  text-align: center;
+
+  i {
+    font-size: 3.5rem;
+    opacity: 0.5;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+}
+
+.announcements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
+}
+
+.announcement-card {
+  background: var(--p-content-background, #1e1e1e);
+  border: 1px solid var(--p-content-border-color, #3f3f46);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &--important {
+    border-left: 4px solid var(--p-red-500, #ef4444);
+    background:
+      linear-gradient(90deg, rgba(239, 68, 68, 0.04) 0%, transparent 100%),
+      var(--p-content-background, #1e1e1e);
+  }
+
+  &__body {
+    padding: 1.5rem;
+
+    @media (max-width: 480px) {
+      padding: 1.25rem 1rem;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--p-text-color);
+    line-height: 1.4;
+
+    @media (max-width: 480px) {
+      font-size: 1.15rem;
+    }
+  }
+
+  &__content {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--p-text-muted-color, #a1a1aa);
+    margin: 0 0 1.5rem 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  &__date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--p-text-muted-color, #a1a1aa);
+    font-weight: 500;
+    background: var(--p-content-hover-background, rgba(255, 255, 255, 0.03));
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+
+    i {
+      font-size: 0.85rem;
+    }
+  }
+}
+
+.important-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--p-red-500, #ef4444);
+  color: #ffffff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  i {
+    font-size: 0.75rem;
+  }
+}
+
+.skeleton-card {
+  background: var(--p-content-background, #1e1e1e);
+  border: 1px solid var(--p-content-border-color, #3f3f46);
+  border-radius: 16px;
+  padding: 1.5rem;
+
+  @media (max-width: 480px) {
+    padding: 1.25rem 1rem;
+  }
+}
+
+:host ::ng-deep {
+  .mb-2 {
+    margin-bottom: 0.75rem !important;
+  }
+  .mb-1 {
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+// ── Toast (pop-up messages) adaptation for mobile ──
+:host ::ng-deep {
+  @media (max-width: 480px) {
+    .p-toast {
+      width: 90vw !important;
+      left: 50% !important;
+      right: auto !important;
+      transform: translateX(-50%) !important;
+      bottom: 1rem !important;
+    }
+
+    .p-toast-message-content {
+      align-items: center;
+      padding: 0.75rem !important;
+    }
+
+    .p-toast-detail {
+      word-break: break-word;
+    }
+  }
+}
