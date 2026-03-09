@@ -80,69 +80,18 @@
 
 <p-dialog
   [(visible)]="formVisible"
-  [header]="editingId() ? 'Редагувати оголошення' : 'Нове оголошення'"
+  [header]="editingAnnouncement() ? 'Редагувати оголошення' : 'Нове оголошення'"
   [modal]="true"
   [draggable]="false"
-  (onHide)="resetForm()"
+  (onHide)="closeForm()"
+  [style]="{ width: '500px', 'max-width': '90vw' }"
 >
-  <form [formGroup]="form" class="announcement-form">
-    <div class="field">
-      <label for="ann-title">Заголовок *</label>
-      <input
-        pInputText
-        id="ann-title"
-        formControlName="title"
-        placeholder="Наприклад: Планове відключення води"
-        class="w-full"
-      />
-      @if (form.get('title')?.invalid && form.get('title')?.touched) {
-        <p-message severity="error" text="Введіть заголовок (мінімум 3 символи)" />
-      }
-    </div>
-
-    <div class="field">
-      <label for="ann-content">
-        Текст оголошення *
-        <span class="char-count"> {{ form.get('content')?.value?.length ?? 0 }}/1000 </span>
-      </label>
-      <textarea
-        pInputTextarea
-        id="ann-content"
-        formControlName="content"
-        placeholder="Детальна інформація..."
-        class="w-full"
-      ></textarea>
-      @if (form.get('content')?.invalid && form.get('content')?.touched) {
-        <p-message severity="error" [text]="contentError()" />
-      }
-    </div>
-
-    <div class="field field--checkbox">
-      <p-checkBox formControlName="important" [binary]="true" inputId="ann-important" />
-      <label for="ann-important" class="checkbox-label">
-        <i class="pi pi-exclamation-triangle"></i>
-        Позначити як важливе
-        <span class="checkbox-hint">(показується вгорі списку)</span>
-      </label>
-    </div>
-  </form>
-
-  <div class="form-actions">
-    <p-button
-      label="Скасувати"
-      [text]="true"
-      severity="secondary"
-      (onClick)="closeForm()"
-      [disabled]="submitting()"
-    />
-    <p-button
-      [label]="editingId() ? 'Зберегти' : 'Опублікувати'"
-      [icon]="editingId() ? 'pi pi-save' : 'pi pi-send'"
-      [loading]="submitting()"
-      [disabled]="form.invalid"
-      (onClick)="submit()"
-    />
-  </div>
+  <app-announcement-form
+    [announcement]="editingAnnouncement()"
+    [submitting]="submitting()"
+    (formSubmit)="handleSubmit($event)"
+    (formCancel)="closeForm()"
+  />
 </p-dialog>
 
 <p-confirmDialog />

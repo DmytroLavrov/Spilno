@@ -1,0 +1,58 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="announcement-form">
+  <div class="field">
+    <label for="ann-title">Заголовок *</label>
+    <input
+      pInputText
+      id="ann-title"
+      formControlName="title"
+      placeholder="Напр.: Ремонт мережі"
+      class="w-full"
+    />
+    @if (form.get('title')?.invalid && form.get('title')?.touched) {
+      <p-message severity="error" text="Введіть заголовок (мінімум 3 символи)" />
+    }
+  </div>
+
+  <div class="field">
+    <label for="ann-content">
+      Текст оголошення *
+      <span class="char-count"> {{ form.get('content')?.value?.length ?? 0 }}/1000 </span>
+    </label>
+    <textarea
+      pInputTextarea
+      id="ann-content"
+      formControlName="content"
+      placeholder="Детальна інформація..."
+      class="w-full"
+    ></textarea>
+    @if (form.get('content')?.invalid && form.get('content')?.touched) {
+      <p-message severity="error" [text]="contentError()" />
+    }
+  </div>
+
+  <div class="field field--checkbox">
+    <p-checkbox formControlName="important" [binary]="true" inputId="ann-important" />
+    <label for="ann-important" class="checkbox-label">
+      <i class="pi pi-exclamation-triangle"></i>
+      Позначити як важливе
+      <span class="checkbox-hint">(показується вгорі списку)</span>
+    </label>
+  </div>
+
+  <div class="form-actions">
+    <p-button
+      label="Скасувати"
+      [text]="true"
+      severity="secondary"
+      (onClick)="cancel()"
+      [disabled]="submitting()"
+    />
+    <p-button
+      type="submit"
+      [label]="announcement() ? 'Зберегти' : 'Опублікувати'"
+      [icon]="announcement() ? 'pi pi-save' : 'pi pi-send'"
+      [loading]="submitting()"
+      [disabled]="form.invalid"
+    />
+  </div>
+</form>
