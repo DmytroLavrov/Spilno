@@ -6,12 +6,19 @@
         Всього: {{ announcements().length }} · Важливих: {{ importantCount() }}
       </span>
     </div>
+
+    @if (isAdmin()) {
+      <p-button label="Нове оголошення" icon="pi pi-plus" (onClick)="openForm()" />
+    }
   </div>
 
   @if (announcements().length === 0) {
     <div class="empty-state">
       <i class="pi pi-megaphone"></i>
       <p>Оголошень поки немає</p>
+      @if (isAdmin()) {
+        <p-button label="Створити перше оголошення" icon="pi pi-plus" (onClick)="openForm()" />
+      }
     </div>
   } @else {
     <div class="announcements-list">
@@ -29,6 +36,26 @@
                   }
                   <h2 class="announcement-card__title">{{ ann.title }}</h2>
                 </div>
+
+                @if (isAdmin()) {
+                  <div class="announcement-card__actions">
+                    <p-button
+                      icon="pi pi-pencil"
+                      [text]="true"
+                      size="small"
+                      pTooltip="Редагувати"
+                      (onClick)="openForm(ann)"
+                    />
+                    <p-button
+                      icon="pi pi-trash"
+                      [text]="true"
+                      severity="danger"
+                      size="small"
+                      pTooltip="Видалити"
+                      (onClick)="confirmDelete(ann)"
+                    />
+                  </div>
+                }
               </div>
 
               <p class="announcement-card__content">{{ ann.content }}</p>
@@ -50,3 +77,73 @@
     </div>
   }
 </div>
+
+<p-dialog
+  [(visible)]="formVisible"
+  [header]="editingId() ? 'Редагувати оголошення' : 'Нове оголошення'"
+  [modal]="true"
+  [draggable]="false"
+  (onHide)="resetForm()"
+>
+  <form [formGroup]="form" class="announcement-form">
+    <div class="field">
+      <label for="ann-title">Заголовок *</label>
+      <input
+        pInputText
+        id="ann-title"
+        formControlName="title"
+        placeholder="Наприклад: Планове відключення води"
+        class="w-full"
+      />
+      @if (form.get('title')?.invalid && form.get('title')?.touched) {
+        <p-message severity="error" text="Введіть заголовок (мінімум 3 символи)" />
+      }
+    </div>
+
+    <div class="field">
+      <label for="ann-content">
+        Текст оголошення *
+        <span class="char-count"> {{ form.get('content')?.value?.length ?? 0 }}/1000 </span>
+      </label>
+      <textarea
+        pInputTextarea
+        id="ann-content"
+        formControlName="content"
+        placeholder="Детальна інформація..."
+        class="w-full"
+      ></textarea>
+      @if (form.get('content')?.invalid && form.get('content')?.touched) {
+        <p-message severity="error" [text]="contentError()" />
+      }
+    </div>
+
+    <div class="field field--checkbox">
+      <p-checkBox formControlName="important" [binary]="true" inputId="ann-important" />
+      <label for="ann-important" class="checkbox-label">
+        <i class="pi pi-exclamation-triangle"></i>
+        Позначити як важливе
+        <span class="checkbox-hint">(показується вгорі списку)</span>
+      </label>
+    </div>
+  </form>
+
+  <div class="form-actions">
+    <p-button
+      label="Скасувати"
+      [text]="true"
+      severity="secondary"
+      (onClick)="closeForm()"
+      [disabled]="submitting()"
+    />
+    <p-button
+      [label]="editingId() ? 'Зберегти' : 'Опублікувати'"
+      [icon]="editingId() ? 'pi pi-save' : 'pi pi-send'"
+      [loading]="submitting()"
+      [disabled]="form.invalid"
+      (onClick)="submit()"
+    />
+  </div>
+</p-dialog>
+
+<p-confirmDialog />
+<p-toast position="bottom-right" />
