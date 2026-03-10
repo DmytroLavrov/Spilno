@@ -1,4 +1,4 @@
-import { inject, Injectable, Signal } from '@angular/core';
+import { inject, Injectable, Injector, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   addDoc,
@@ -16,7 +16,7 @@ import {
 import { AuthService } from '@core/services/auth.service';
 import { Announcement } from '@models/announcement.model';
 import { User } from '@models/user.model';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +24,7 @@ import { map } from 'rxjs';
 export class AnnouncementService {
   private firestore = inject(Firestore);
   private authService = inject(AuthService);
+  private injector = inject(Injector);
 
   private announcementsCol = collection(this.firestore, 'announcements');
   private usersCol = collection(this.firestore, 'users');
@@ -48,12 +49,16 @@ export class AnnouncementService {
 
   public announcements: Signal<Announcement[]> = toSignal(this.announcements$, {
     initialValue: [],
+    injector: this.injector,
   });
 
   // Residents awaiting approval
-  private pendingUsers$ = collectionData(query(this.usersCol, where('status', '==', 'pending')), {
-    idField: 'id',
-  }).pipe(
+  private pendingUsers$: Observable<User[]> = collectionData(
+    query(this.usersCol, where('status', '==', 'pending')),
+    {
+      idField: 'id',
+    },
+  ).pipe(
     map((docs) =>
       docs.map(
         (d) =>
@@ -67,9 +72,10 @@ export class AnnouncementService {
 
   public pendingUsersCount = toSignal(this.pendingUsers$.pipe(map((u) => u.length)), {
     initialValue: 0,
+    injector: this.injector,
   });
 
-  public pendingUsers = toSignal(this.pendingUsers$, { initialValue: [] });
+  public pendingUsers = toSignal(this.pendingUsers$, { initialValue: [], injector: this.injector });
 
   // Active users
   private activeUsers$ = collectionData(query(this.usersCol, where('status', '==', 'active')), {
@@ -86,7 +92,30 @@ export class AnnouncementService {
     ),
   );
 
-  public activeUsers = toSignal(this.activeUsers$, { initialValue: [] });
+  public activeUsers: Signal<User[]> = toSignal(this.activeUsers$, {
+    initialValue: [],
+    injector: this.injector,
+  });
+
+  private rejectedUsers$ = collectionData(
+    query(this.usersCol, where('status', '==', 'rejected'), orderBy('createdAt', 'desc')),
+    { idField: 'id' },
+  ).pipe(
+    map((docs) =>
+      docs.map(
+        (d) =>
+          ({
+            ...d,
+            createdAt: (d['createdAt'] as Timestamp)?.toDate() || new Date(),
+          }) as User,
+      ),
+    ),
+  );
+
+  public rejectedUsers = toSignal(this.rejectedUsers$, {
+    initialValue: [],
+    injector: this.injector,
+  });
 
   // CRUD
   public async createAnnouncement(
@@ -122,5 +151,9 @@ export class AnnouncementService {
     await updateDoc(doc(this.firestore, 'users', userId), {
       status: 'rejected',
     });
+  }
+
+  public async deleteUser(userId: string) {
+    await deleteDoc(doc(this.firestore, 'users', userId));
   }
 }
