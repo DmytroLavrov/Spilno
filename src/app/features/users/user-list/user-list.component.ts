@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { AnnouncementService } from '@core/services/announcement.service';
+import { UserService } from '@core/services/user.service';
 import { User, UserStatus } from '@models/user.model';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TabsModule } from 'primeng/tabs';
@@ -43,7 +43,7 @@ const STATUS_META: Record<UserStatus, { label: string; severity: TagSeverity }> 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserListComponent {
-  private announcementService = inject(AnnouncementService);
+  private userService = inject(UserService);
   private confirmService = inject(ConfirmationService);
   private messageService = inject(MessageService);
 
@@ -60,9 +60,9 @@ export class UserListComponent {
   public loadingId = signal<string | null>(null);
 
   // Data
-  public pendingUsers = this.announcementService.pendingUsers;
-  public activeUsers = this.announcementService.activeUsers;
-  public rejectedUsers = this.announcementService.rejectedUsers;
+  public pendingUsers = this.userService.pendingUsers;
+  public activeUsers = this.userService.activeUsers;
+  public rejectedUsers = this.userService.rejectedUsers;
 
   public allUsers = computed(() => [...this.pendingUsers(), ...this.activeUsers()]);
 
@@ -89,7 +89,7 @@ export class UserListComponent {
   public async approve(user: User) {
     this.loadingId.set(user.id + '_approve');
     try {
-      await this.announcementService.approveUser(user.id);
+      await this.userService.approveUser(user.id);
       this.messageService.add({
         severity: 'success',
         summary: 'Підтверджено',
@@ -123,7 +123,7 @@ export class UserListComponent {
   private async reject(user: User) {
     this.loadingId.set(user.id + '_reject');
     try {
-      await this.announcementService.rejectUser(user.id);
+      await this.userService.rejectUser(user.id);
       this.messageService.add({
         severity: 'info',
         summary: 'Відхилено',
@@ -147,7 +147,7 @@ export class UserListComponent {
 
     this.loadingId.set(user.id + '_status');
     try {
-      await this.announcementService.updateUserStatus(user.id, newStatus);
+      await this.userService.updateUserStatus(user.id, newStatus);
       this.messageService.add({
         severity: 'success',
         summary: 'Оновлено',
@@ -169,7 +169,7 @@ export class UserListComponent {
   public async restore(user: User) {
     this.loadingId.set(user.id + '_restore');
     try {
-      await this.announcementService.updateUserStatus(user.id, 'pending');
+      await this.userService.updateUserStatus(user.id, 'pending');
       this.messageService.add({
         severity: 'success',
         summary: 'Відновлено',
@@ -203,7 +203,7 @@ export class UserListComponent {
   private async deleteUser(user: User) {
     this.loadingId.set(user.id + '_delete');
     try {
-      await this.announcementService.deleteUser(user.id);
+      await this.userService.deleteUser(user.id);
       this.messageService.add({
         severity: 'success',
         summary: 'Видалено',
