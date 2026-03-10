@@ -1,0 +1,279 @@
+<div class="users">
+  <div class="users-header">
+    <div>
+      <h1 class="users-title">Мешканці</h1>
+      <span class="users-subtitle">
+        Активних: {{ activeUsers().length }} · Очікують: {{ pendingUsers().length }} · Відхилених:
+        {{ rejectedUsers().length }}
+      </span>
+    </div>
+  </div>
+
+  <p-tabs [(value)]="activeTab">
+    <p-tablist>
+      <p-tab value="0">
+        <span>Очікують реєстрації</span>
+        @if (pendingUsers().length > 0) {
+          <p-badge
+            [value]="pendingUsers().length.toString()"
+            severity="warn"
+            styleClass="tab-badge"
+          />
+        }
+      </p-tab>
+
+      <p-tab value="1">Всі мешканці</p-tab>
+
+      <p-tab value="2">
+        <span>Відхилені</span>
+        @if (rejectedUsers().length > 0) {
+          <p-badge
+            [value]="rejectedUsers().length.toString()"
+            severity="danger"
+            styleClass="tab-badge"
+          />
+        }
+      </p-tab>
+    </p-tablist>
+
+    <p-tabpanels>
+      <p-tabpanel value="0">
+        @if (pendingUsers().length === 0) {
+          <div class="empty-state">
+            <i class="pi pi-check-circle"></i>
+            <p>Нових заявок на реєстрацію немає</p>
+          </div>
+        } @else {
+          <p-table
+            [value]="pendingUsers()"
+            styleClass="p-datatable-sm"
+            responsiveLayout="stack"
+            breakpoint="768px"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Мешканець</th>
+                <th>Квартира</th>
+                <th>Телефон</th>
+                <th>Дата реєстрації</th>
+                <th>Дії</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-user>
+              <tr class="row--pending">
+                <td>
+                  <span class="p-column-title">Мешканець</span>
+                  <div class="user-cell">
+                    <p-avatar
+                      [label]="initials(user)"
+                      shape="circle"
+                      [style]="{ background: '#f59e0b', color: '#fff' }"
+                    />
+                    <div>
+                      <div class="user-cell__name">{{ user.name }}</div>
+                      <div class="user-cell__email">{{ user.email }}</div>
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  <span class="p-column-title">Квартира</span>
+                  <strong>№ {{ user.apartmentNumber }}</strong>
+                </td>
+
+                <td>
+                  <span class="p-column-title">Телефон</span>
+                  {{ user.phone || '—' }}
+                </td>
+
+                <td>
+                  <span class="p-column-title">Дата реєстрації</span>
+                  {{ user.createdAt | date: 'dd.MM.yyyy' }}
+                </td>
+
+                <td>
+                  <span class="p-column-title">Дії</span>
+                  <div class="actions">
+                    <p-button
+                      label="Підтвердити"
+                      icon="pi pi-check"
+                      size="small"
+                      severity="success"
+                      [loading]="loadingId() === user.id + '_approve'"
+                      (onClick)="approve(user)"
+                    />
+
+                    <p-button
+                      icon="pi pi-times"
+                      size="small"
+                      severity="danger"
+                      [text]="true"
+                      pTooltip="Відхилити"
+                      [loading]="loadingId() === user.id + '_reject'"
+                      (onClick)="confirmReject(user)"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        }
+      </p-tabpanel>
+
+      <p-tabpanel value="1">
+        <p-table
+          [value]="allUsers()"
+          [paginator]="true"
+          [rows]="10"
+          styleClass="p-datatable-sm p-datatable-striped"
+          sortField="name"
+          [sortOrder]="1"
+          responsiveLayout="stack"
+          breakpoint="768px"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="name">Мешканець <p-sortIcon field="name" /></th>
+              <th pSortableColumn="apartmentNumber">
+                Квартира <p-sortIcon field="apartmentNumber" />
+              </th>
+              <th>Телефон</th>
+              <th pSortableColumn="role">Роль <p-sortIcon field="role" /></th>
+              <th>Статус</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-user>
+            <tr>
+              <td>
+                <span class="p-column-title">Мешканець</span>
+                <div class="user-cell">
+                  <p-avatar
+                    [label]="initials(user)"
+                    shape="circle"
+                    [style]="{ background: avatarColor(user.name), color: '#fff' }"
+                  />
+                  <div>
+                    <div class="user-cell__name">{{ user.name }}</div>
+                    <div class="user-cell__email">{{ user.email }}</div>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <span class="p-column-title">Квартира</span>
+                <strong>№ {{ user.apartmentNumber }}</strong>
+              </td>
+
+              <td>
+                <span class="p-column-title">Телефон</span>
+                {{ user.phone || '—' }}
+              </td>
+
+              <td>
+                <span class="p-column-title">Роль</span>
+                <p-tag
+                  [value]="user.role === 'admin' ? 'Адмін' : 'Мешканець'"
+                  [severity]="user.role === 'admin' ? 'info' : 'secondary'"
+                />
+              </td>
+
+              <td>
+                <span class="p-column-title">Статус</span>
+                <p-tag
+                  [value]="getStatusMeta(user.status).label"
+                  [severity]="getStatusMeta(user.status).severity"
+                />
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5" class="empty-message">
+                <i class="pi pi-users"></i>
+                <span>Мешканців ще немає</span>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-tabpanel>
+
+      <p-tabpanel value="2">
+        @if (rejectedUsers().length === 0) {
+          <div class="empty-state">
+            <i class="pi pi-check-circle"></i>
+            <p>Відхилених користувачів немає</p>
+          </div>
+        } @else {
+          <p-table
+            [value]="rejectedUsers()"
+            styleClass="p-datatable-sm"
+            responsiveLayout="stack"
+            breakpoint="768px"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Мешканець</th>
+                <th>Квартира</th>
+                <th>Телефон</th>
+                <th>Дата реєстрації</th>
+                <th>Дії</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-user>
+              <tr class="row--rejected">
+                <td>
+                  <span class="p-column-title">Мешканець</span>
+                  <div class="user-cell">
+                    <p-avatar
+                      [label]="initials(user)"
+                      shape="circle"
+                      [style]="{ background: '#ef4444', color: '#fff' }"
+                    />
+                    <div>
+                      <div class="user-cell__name">{{ user.name }}</div>
+                      <div class="user-cell__email">{{ user.email }}</div>
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  <span class="p-column-title">Квартира</span>
+                  <strong>№ {{ user.apartmentNumber }}</strong>
+                </td>
+
+                <td>
+                  <span class="p-column-title">Телефон</span>
+                  {{ user.phone || '—' }}
+                </td>
+
+                <td>
+                  <span class="p-column-title">Дата реєстрації</span>
+                  {{ user.createdAt | date: 'dd.MM.yyyy' }}
+                </td>
+
+                <td>
+                  <span class="p-column-title">Дії</span>
+                  <p-button
+                    label="Видалити назовсім"
+                    icon="pi pi-trash"
+                    size="small"
+                    severity="danger"
+                    [loading]="loadingId() === user.id + '_delete'"
+                    (onClick)="confirmDelete(user)"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        }
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+</div>
+
+<p-confirmDialog />
+<p-toast position="bottom-right" />
