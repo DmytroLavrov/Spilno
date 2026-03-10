@@ -11,6 +11,8 @@ import { Button } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { Toast } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { Select } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -22,7 +24,19 @@ const STATUS_META: Record<UserStatus, { label: string; severity: TagSeverity }> 
 
 @Component({
   selector: 'app-user-list',
-  imports: [DatePipe, TabsModule, Badge, TableModule, Avatar, Button, Tag, Toast, ConfirmDialog],
+  imports: [
+    DatePipe,
+    FormsModule,
+    TabsModule,
+    Badge,
+    TableModule,
+    Avatar,
+    Button,
+    Tag,
+    Toast,
+    ConfirmDialog,
+    Select,
+  ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
@@ -34,6 +48,12 @@ export class UserListComponent {
   private messageService = inject(MessageService);
 
   readonly statusMeta = STATUS_META;
+
+  readonly statusOptions = [
+    { label: 'Очікує', value: 'pending' as UserStatus },
+    { label: 'Активний', value: 'active' as UserStatus },
+    { label: 'Відхилено', value: 'rejected' as UserStatus },
+  ];
 
   // State
   public activeTab: string = '0';
@@ -115,6 +135,52 @@ export class UserListComponent {
         severity: 'error',
         summary: 'Помилка',
         detail: 'Не вдалося відхилити реєстрацію',
+        life: 4000,
+      });
+    } finally {
+      this.loadingId.set(null);
+    }
+  }
+
+  public async onStatusChange(user: User, newStatus: UserStatus) {
+    if (user.status === newStatus) return;
+
+    this.loadingId.set(user.id + '_status');
+    try {
+      await this.announcementService.updateUserStatus(user.id, newStatus);
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Оновлено',
+        detail: `Статус ${user.name} змінено на "${STATUS_META[newStatus].label}"`,
+        life: 3000,
+      });
+    } catch {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Помилка',
+        detail: 'Не вдалося змінити статус',
+        life: 4000,
+      });
+    } finally {
+      this.loadingId.set(null);
+    }
+  }
+
+  public async restore(user: User) {
+    this.loadingId.set(user.id + '_restore');
+    try {
+      await this.announcementService.updateUserStatus(user.id, 'pending');
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Відновлено',
+        detail: `${user.name} повернуто до списку очікування`,
+        life: 3000,
+      });
+    } catch {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Помилка',
+        detail: 'Не вдалося відновити користувача',
         life: 4000,
       });
     } finally {

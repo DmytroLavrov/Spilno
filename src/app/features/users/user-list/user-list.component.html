@@ -181,10 +181,28 @@
 
               <td>
                 <span class="p-column-title">Статус</span>
-                <p-tag
-                  [value]="getStatusMeta(user.status).label"
-                  [severity]="getStatusMeta(user.status).severity"
-                />
+                <p-select
+                  [options]="statusOptions"
+                  [ngModel]="user.status"
+                  optionLabel="label"
+                  optionValue="value"
+                  (onChange)="onStatusChange(user, $event.value)"
+                  styleClass="status-select"
+                  appendTo="body"
+                >
+                  <ng-template pTemplate="selectedItem" let-option>
+                    <p-tag
+                      [value]="option.label"
+                      [severity]="getStatusMeta(option.value).severity"
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="item" let-option>
+                    <p-tag
+                      [value]="option.label"
+                      [severity]="getStatusMeta(option.value).severity"
+                    />
+                  </ng-template>
+                </p-select>
               </td>
             </tr>
           </ng-template>
@@ -257,14 +275,26 @@
 
                 <td>
                   <span class="p-column-title">Дії</span>
-                  <p-button
-                    label="Видалити назовсім"
-                    icon="pi pi-trash"
-                    size="small"
-                    severity="danger"
-                    [loading]="loadingId() === user.id + '_delete'"
-                    (onClick)="confirmDelete(user)"
-                  />
+                  <div class="actions">
+                    <p-button
+                      label="Відновити"
+                      icon="pi pi-replay"
+                      size="small"
+                      severity="success"
+                      [loading]="loadingId() === user.id + '_restore'"
+                      (onClick)="restore(user)"
+                      pTooltip="Повернути до списку очікування"
+                    />
+                    <p-button
+                      icon="pi pi-trash"
+                      size="small"
+                      severity="danger"
+                      [text]="true"
+                      [loading]="loadingId() === user.id + '_delete'"
+                      (onClick)="confirmDelete(user)"
+                      pTooltip="Видалити назовсім"
+                    />
+                  </div>
                 </td>
               </tr>
             </ng-template>

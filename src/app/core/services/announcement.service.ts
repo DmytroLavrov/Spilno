@@ -15,7 +15,7 @@ import {
 } from '@angular/fire/firestore';
 import { AuthService } from '@core/services/auth.service';
 import { Announcement } from '@models/announcement.model';
-import { User } from '@models/user.model';
+import { User, UserStatus } from '@models/user.model';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
@@ -143,14 +143,19 @@ export class AnnouncementService {
   }
 
   // Approval / rejection of registration
-  public async approveUser(userId: string): Promise<void> {
-    await updateDoc(doc(this.firestore, 'users', userId), { status: 'active' });
+
+  public async updateUserStatus(userId: string, status: UserStatus) {
+    await updateDoc(doc(this.firestore, 'users', userId), {
+      status,
+    });
+  }
+
+  public async approveUser(userId: string) {
+    await this.updateUserStatus(userId, 'active');
   }
 
   public async rejectUser(userId: string) {
-    await updateDoc(doc(this.firestore, 'users', userId), {
-      status: 'rejected',
-    });
+    await this.updateUserStatus(userId, 'rejected');
   }
 
   public async deleteUser(userId: string) {
