@@ -43,5 +43,13 @@ export const routes: Routes = [
     ],
   },
 
-  { path: '**', redirectTo: 'dashboard' },
+  // 404 Page
+  {
+    path: '404',
+    loadComponent: () =>
+      import('@features/not-found/not-found.component').then((m) => m.NotFoundComponent),
+  },
+
+  // Catch-all — redirect to 404
+  { path: '**', redirectTo: '404' },
 ];
