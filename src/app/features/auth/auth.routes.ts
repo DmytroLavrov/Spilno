@@ -10,24 +10,28 @@ export const authRoutes: Routes = [
     children: [
       {
         path: 'login',
+        title: 'Вхід | Spilno',
         loadComponent: () =>
           import('@features/auth/login/login.component').then((m) => m.LoginComponent),
         canActivate: [guestGuard],
       },
       {
         path: 'register',
+        title: 'Реєстрація | Spilno',
         loadComponent: () =>
           import('@features/auth/register/register.component').then((m) => m.RegisterComponent),
         canActivate: [guestGuard],
       },
       {
         path: 'pending',
+        title: 'Очікування підтвердження | Spilno',
         loadComponent: () =>
           import('@features/auth/pending/pending.component').then((m) => m.PendingComponent),
         canActivate: [statusGuard('pending')],
       },
       {
         path: 'rejected',
+        title: 'Доступ заборонено | Spilno',
         loadComponent: () =>
           import('@features/auth/rejected/rejected.component').then((m) => m.RejectedComponent),
         canActivate: [statusGuard('rejected')],

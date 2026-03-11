@@ -11,10 +11,11 @@ export const routes: Routes = [
   // --- Public routes ---
   {
     path: 'auth',
+    title: 'Авторизація | Spilno',
     loadChildren: () => import('@features/auth/auth.routes').then((m) => m.authRoutes),
   },
 
-  // --- Protected routes з Main Layout ---
+  // --- Protected routes with Main Layout ---
   {
     path: '',
     canActivate: [authGuard],
@@ -23,21 +24,25 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        title: 'Головна | Spilno',
         loadComponent: () =>
           import('@features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
       },
       {
         path: 'requests',
+        title: 'Заявки | Spilno',
         loadChildren: () =>
           import('@features/requests/requests.routes').then((m) => m.requestsRoutes),
       },
       {
         path: 'announcements',
+        title: 'Оголошення | Spilno',
         loadChildren: () =>
           import('@features/announcements/announcements.routes').then((m) => m.announcementsRoutes),
       },
       {
         path: 'users',
+        title: 'Мешканці | Spilno',
         loadChildren: () => import('@features/users/users.routes').then((m) => m.usersRoutes),
       },
     ],
@@ -46,6 +51,7 @@ export const routes: Routes = [
   // 404 Page
   {
     path: '404',
+    title: 'Сторінку не знайдено | Spilno',
     loadComponent: () =>
       import('@features/not-found/not-found.component').then((m) => m.NotFoundComponent),
   },
