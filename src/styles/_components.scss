@@ -21,3 +21,23 @@
   font-weight: 500;
   font-size: 0.9rem;
 }
+
+// ── Toast (pop-up messages) adaptation for mobile ──
+@media (max-width: 480px) {
+  .p-toast {
+    width: 90vw !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    bottom: 1rem !important;
+  }
+
+  .p-toast-message-content {
+    align-items: center;
+    padding: 0.75rem !important;
+  }
+
+  .p-toast-detail {
+    word-break: break-word;
+  }
+}
