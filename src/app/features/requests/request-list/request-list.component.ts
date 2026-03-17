@@ -22,8 +22,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { InputText } from 'primeng/inputtext';
 import { Dialog } from 'primeng/dialog';
-import { RequestFormComponent } from '../request-form/request-form.component';
+import { RequestFormComponent } from '@features/requests/request-form/request-form.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -64,6 +65,7 @@ export const TYPE_META: Record<RequestType, string> = {
     InputText,
     Dialog,
     RequestFormComponent,
+    PageHeaderComponent,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './request-list.component.html',
@@ -160,6 +162,12 @@ export class RequestListComponent implements OnInit {
     // A resident can only delete their new application
     return req.userId === user?.id && req.status === 'new';
   }
+
+  public subtitleText = computed(() => {
+    const total = `Всього: ${this.filtered().length}`;
+    const filter = this.activeFilter() ? ' · Фільтр активний' : '';
+    return total + filter;
+  });
 
   // ── Actions ──
   public applyFilter() {

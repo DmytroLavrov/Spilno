@@ -1,13 +1,5 @@
 <div class="page-wrapper">
-  <div class="page-header">
-    <div>
-      <h1 class="page-title">Мешканці</h1>
-      <span class="page-subtitle">
-        Активних: {{ activeUsers().length }} · Очікують: {{ pendingUsers().length }} · Відхилених:
-        {{ rejectedUsers().length }}
-      </span>
-    </div>
-  </div>
+  <app-page-header title="Мешканці" [subtitle]="subtitleText()" />
 
   <p-tabs [(value)]="activeTab">
     <p-tablist>

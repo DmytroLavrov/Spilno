@@ -1,19 +1,9 @@
 <div class="page-wrapper">
-  <div class="page-header page-header--flex">
-    <div>
-      <h1 class="page-title">Заявки</h1>
-      <span class="page-subtitle">
-        Всього: {{ filtered().length }}
-        @if (activeFilter()) {
-          · Фільтр активний
-        }
-      </span>
-    </div>
-
+  <app-page-header title="Заявки" [subtitle]="subtitleText()" [flex]="true">
     @if (isResident()) {
       <p-button label="Нова заявка" icon="pi pi-plus" (onClick)="openNewRequestDialog()" />
     }
-  </div>
+  </app-page-header>
 
   @if (isAdmin()) {
     <div class="filters-bar">

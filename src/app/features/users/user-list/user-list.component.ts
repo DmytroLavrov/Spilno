@@ -14,6 +14,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Select } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
+import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -38,6 +39,7 @@ const STATUS_META: Record<UserStatus, { label: string; severity: TagSeverity }> 
     ConfirmDialog,
     Select,
     EmptyStateComponent,
+    PageHeaderComponent,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './user-list.component.html',
@@ -86,6 +88,11 @@ export class UserListComponent {
   public getStatusMeta(status: UserStatus) {
     return this.statusMeta[status];
   }
+
+  public subtitleText = computed(
+    () =>
+      `Активних: ${this.activeUsers().length} · Очікують: ${this.pendingUsers().length} · Відхилених: ${this.rejectedUsers().length}`,
+  );
 
   // Actions
   public async approve(user: User) {

@@ -1,16 +1,13 @@
 <div class="page-wrapper">
-  <div class="page-header page-header--flex">
-    <div>
-      <h1 class="page-title">Оголошення</h1>
-      <span class="page-subtitle">
-        Всього: {{ announcements().length }} · Важливих: {{ importantCount() }}
-      </span>
-    </div>
-
+  <app-page-header
+    title="Оголошення"
+    [subtitle]="'Всього: ' + announcements().length + ' · Важливих: ' + importantCount()"
+    [flex]="true"
+  >
     @if (isAdmin()) {
       <p-button label="Нове оголошення" icon="pi pi-plus" (onClick)="openForm()" />
     }
-  </div>
+  </app-page-header>
 
   @if (announcements().length === 0) {
     @if (isAdmin()) {
