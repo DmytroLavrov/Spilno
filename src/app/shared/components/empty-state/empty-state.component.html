@@ -1,0 +1,19 @@
+<div class="empty-state" [attr.data-variant]="variant()" [attr.data-size]="iconSize()">
+  <i class="pi empty-state__icon" [class]="icon()" [style.color]="iconColor()"></i>
+
+  @if (title()) {
+    <h2 class="empty-state__title">{{ title() }}</h2>
+  }
+
+  <p class="empty-state__message">{{ message() }}</p>
+
+  @if (actionLabel()) {
+    @if (actionLink()) {
+      <a [routerLink]="actionLink()">
+        <p-button [label]="actionLabel()!" [icon]="actionIcon()" />
+      </a>
+    } @else {
+      <p-button [label]="actionLabel()!" [icon]="actionIcon()" (onClick)="actionClick.emit()" />
+    }
+  }
+</div>

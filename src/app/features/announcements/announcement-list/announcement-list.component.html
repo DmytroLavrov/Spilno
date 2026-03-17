@@ -13,13 +13,18 @@
   </div>
 
   @if (announcements().length === 0) {
-    <div class="empty-state">
-      <i class="pi pi-megaphone"></i>
-      <p>Оголошень поки немає</p>
-      @if (isAdmin()) {
-        <p-button label="Створити перше оголошення" icon="pi pi-plus" (onClick)="openForm()" />
-      }
-    </div>
+    @if (isAdmin()) {
+      <app-empty-state
+        variant="bordered"
+        icon="pi-megaphone"
+        message="Оголошень поки немає"
+        actionLabel="Створити перше оголошення"
+        actionIcon="pi pi-plus"
+        (actionClick)="openForm()"
+      />
+    } @else {
+      <app-empty-state variant="bordered" icon="pi pi-megaphone" message="Оголошень поки немає" />
+    }
   } @else {
     <div class="announcements-list">
       @for (ann of announcements(); track ann.id) {

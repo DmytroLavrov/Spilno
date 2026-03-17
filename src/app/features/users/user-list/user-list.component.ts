@@ -13,6 +13,7 @@ import { Toast } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Select } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
+import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -36,6 +37,7 @@ const STATUS_META: Record<UserStatus, { label: string; severity: TagSeverity }> 
     Toast,
     ConfirmDialog,
     Select,
+    EmptyStateComponent,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './user-list.component.html',

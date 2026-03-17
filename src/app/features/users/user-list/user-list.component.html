@@ -39,10 +39,12 @@
     <p-tabpanels>
       <p-tabpanel value="0">
         @if (pendingUsers().length === 0) {
-          <div class="empty-state">
-            <i class="pi pi-check-circle"></i>
-            <p>Нових заявок на реєстрацію немає</p>
-          </div>
+          <app-empty-state
+            variant="bordered"
+            icon="pi pi-check-circle"
+            iconColor="var(--p-green-400)"
+            message="Нових заявок на реєстрацію немає"
+          />
         } @else {
           <p-table
             [value]="pendingUsers()"
@@ -220,10 +222,12 @@
 
       <p-tabpanel value="2">
         @if (rejectedUsers().length === 0) {
-          <div class="empty-state">
-            <i class="pi pi-check-circle"></i>
-            <p>Відхилених користувачів немає</p>
-          </div>
+          <app-empty-state
+            variant="bordered"
+            icon="pi pi-check-circle"
+            iconColor="var(--p-red-400)"
+            message="Відхилених користувачів немає"
+          />
         } @else {
           <p-table
             [value]="rejectedUsers()"

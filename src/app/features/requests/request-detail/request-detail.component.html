@@ -117,12 +117,15 @@
     </p-card>
   } @else {
     <p-card>
-      <div class="empty-state">
-        <i class="pi pi-exclamation-circle"></i>
-        <h2>Заявку не знайдено</h2>
-        <p>Можливо, вона була видалена або у вас немає доступу</p>
-        <p-button label="Повернутися до списку" icon="pi pi-arrow-left" (onClick)="goBack()" />
-      </div>
+      <app-empty-state
+        icon="pi pi-exclamation-circle"
+        iconColor="var(--p-orange-500)"
+        title="Заявку не знайдено"
+        message="Можливо, вона була видалена або у вас немає доступу"
+        actionLabel="Повернутися до списку"
+        actionIcon="pi pi-arrow-left"
+        (actionClick)="goBack()"
+      />
     </p-card>
   }
 </div>
