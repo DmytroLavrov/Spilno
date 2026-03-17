@@ -10,6 +10,7 @@ import { TimelineModule } from 'primeng/timeline';
 import { Tag } from 'primeng/tag';
 import { AnnouncementService } from '@core/services/announcement.service';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
+import { StatusLabelPipe } from '@shared/pipes/status-label.pipe';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -21,7 +22,16 @@ const TYPE_LABELS: Record<string, string> = {
 
 @Component({
   selector: 'app-resident-dashboard',
-  imports: [RouterLink, DatePipe, Card, Button, TimelineModule, Tag, EmptyStateComponent],
+  imports: [
+    RouterLink,
+    DatePipe,
+    Card,
+    Button,
+    TimelineModule,
+    Tag,
+    EmptyStateComponent,
+    StatusLabelPipe,
+  ],
   templateUrl: './resident-dashboard.component.html',
   styleUrl: './resident-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,16 +48,6 @@ export class ResidentDashboardComponent {
 
   public userName = computed(() => this.authService.currentUser()?.name ?? '');
   public apartmentNumber = computed(() => this.authService.currentUser()?.apartmentNumber ?? '');
-
-  public statusLabel(status: RequestStatus): string {
-    const map: Record<RequestStatus, string> = {
-      new: 'Нова',
-      in_progress: 'В обробці',
-      done: 'Виконано',
-      rejected: 'Відхилено',
-    };
-    return map[status];
-  }
 
   public statusSeverity(status: RequestStatus): TagSeverity {
     const map: Record<RequestStatus, TagSeverity> = {

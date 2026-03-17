@@ -111,11 +111,14 @@
                 appendTo="body"
               >
                 <ng-template pTemplate="selectedItem" let-item>
-                  <p-tag [value]="item.label" [severity]="statusSeverity(item.value)" />
+                  <p-tag
+                    [value]="item.label | statusLabel"
+                    [severity]="statusSeverity(item.value)"
+                  />
                 </ng-template>
               </p-select>
             } @else {
-              <p-tag [value]="statusLabel(req.status)" [severity]="statusSeverity(req.status)" />
+              <p-tag [value]="req.status | statusLabel" [severity]="statusSeverity(req.status)" />
             }
           </div>
         </td>

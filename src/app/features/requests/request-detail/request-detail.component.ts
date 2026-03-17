@@ -22,6 +22,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
 import { filter, Subscription, take } from 'rxjs';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
+import { StatusLabelPipe } from '@shared/pipes/status-label.pipe';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -50,6 +51,7 @@ const TYPE_LABELS: Record<string, string> = {
     ConfirmDialog,
     Toast,
     EmptyStateComponent,
+    StatusLabelPipe,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './request-detail.component.html',
@@ -123,10 +125,6 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
 
   public typeLabel(type: string): string {
     return TYPE_LABELS[type] || type;
-  }
-
-  public statusLabel(status: RequestStatus): string {
-    return STATUS_META[status].label;
   }
 
   public statusSeverity(status: RequestStatus): TagSeverity {

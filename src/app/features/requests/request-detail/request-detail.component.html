@@ -21,7 +21,7 @@
           <div>
             <h1 class="detail-title">Заявка №{{ request()!.id.slice(0, 8) }}</h1>
             <p-tag
-              [value]="statusLabel(request()!.status)"
+              [value]="request()!.status | statusLabel"
               [severity]="statusSeverity(request()!.status)"
               styleClass="detail-status"
             />

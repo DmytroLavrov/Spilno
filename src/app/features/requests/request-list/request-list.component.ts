@@ -25,6 +25,7 @@ import { Dialog } from 'primeng/dialog';
 import { RequestFormComponent } from '@features/requests/request-form/request-form.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
+import { StatusLabelPipe } from '@shared/pipes/status-label.pipe';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -66,6 +67,7 @@ export const TYPE_META: Record<RequestType, string> = {
     Dialog,
     RequestFormComponent,
     PageHeaderComponent,
+    StatusLabelPipe,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './request-list.component.html',
@@ -133,16 +135,6 @@ export class RequestListComponent implements OnInit {
   // ── Helpers ──
   public typeLabel(type: RequestType): string {
     return TYPE_META[type];
-  }
-
-  public statusLabel(status: RequestStatus): string {
-    const map: Record<RequestStatus, string> = {
-      new: 'Нова',
-      in_progress: 'В обробці',
-      done: 'Виконано',
-      rejected: 'Відхилено',
-    };
-    return map[status];
   }
 
   public statusSeverity(status: RequestStatus): TagSeverity {
