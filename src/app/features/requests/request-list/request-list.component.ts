@@ -26,6 +26,7 @@ import { RequestFormComponent } from '@features/requests/request-form/request-fo
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
 import { StatusLabelPipe } from '@shared/pipes/status-label.pipe';
+import { StatusSeverityPipe } from '@shared/pipes/status-severity.pipe';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -68,6 +69,7 @@ export const TYPE_META: Record<RequestType, string> = {
     RequestFormComponent,
     PageHeaderComponent,
     StatusLabelPipe,
+    StatusSeverityPipe,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './request-list.component.html',
@@ -135,17 +137,6 @@ export class RequestListComponent implements OnInit {
   // ── Helpers ──
   public typeLabel(type: RequestType): string {
     return TYPE_META[type];
-  }
-
-  public statusSeverity(status: RequestStatus): TagSeverity {
-    const map: Record<RequestStatus, TagSeverity> = {
-      new: 'danger',
-      in_progress: 'warn',
-      done: 'success',
-      rejected: 'secondary',
-    };
-
-    return map[status];
   }
 
   public canDelete(req: MaintenanceRequest): boolean {

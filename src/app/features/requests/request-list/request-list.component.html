@@ -113,12 +113,12 @@
                 <ng-template pTemplate="selectedItem" let-item>
                   <p-tag
                     [value]="item.label | statusLabel"
-                    [severity]="statusSeverity(item.value)"
+                    [severity]="req.status | statusSeverity"
                   />
                 </ng-template>
               </p-select>
             } @else {
-              <p-tag [value]="req.status | statusLabel" [severity]="statusSeverity(req.status)" />
+              <p-tag [value]="req.status | statusLabel" [severity]="req.status | statusSeverity" />
             }
           </div>
         </td>

@@ -22,7 +22,10 @@
             <div class="timeline-item">
               <div class="timeline-item__header">
                 <span class="timeline-item__type">{{ typeLabel(req.type) }}</span>
-                <p-tag [value]="req.status | statusLabel" [severity]="statusSeverity(req.status)" />
+                <p-tag
+                  [value]="req.status | statusLabel"
+                  [severity]="req.status | statusSeverity"
+                />
               </div>
               <p class="timeline-item__desc">{{ req.description }}</p>
               <span class="timeline-item__date"> {{ req.createdAt | date: 'dd.MM.yyyy' }} </span>

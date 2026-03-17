@@ -11,8 +11,7 @@ import { Tag } from 'primeng/tag';
 import { AnnouncementService } from '@core/services/announcement.service';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 import { StatusLabelPipe } from '@shared/pipes/status-label.pipe';
-
-type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
+import { StatusSeverityPipe } from '@shared/pipes/status-severity.pipe';
 
 const TYPE_LABELS: Record<string, string> = {
   plumbing: '🔧 Сантехніка',
@@ -31,6 +30,7 @@ const TYPE_LABELS: Record<string, string> = {
     Tag,
     EmptyStateComponent,
     StatusLabelPipe,
+    StatusSeverityPipe,
   ],
   templateUrl: './resident-dashboard.component.html',
   styleUrl: './resident-dashboard.component.scss',
@@ -48,17 +48,6 @@ export class ResidentDashboardComponent {
 
   public userName = computed(() => this.authService.currentUser()?.name ?? '');
   public apartmentNumber = computed(() => this.authService.currentUser()?.apartmentNumber ?? '');
-
-  public statusSeverity(status: RequestStatus): TagSeverity {
-    const map: Record<RequestStatus, TagSeverity> = {
-      new: 'danger',
-      in_progress: 'warn',
-      done: 'success',
-      rejected: 'secondary',
-    };
-
-    return map[status];
-  }
 
   public typeLabel(type: string): string {
     return TYPE_LABELS[type] || type;
