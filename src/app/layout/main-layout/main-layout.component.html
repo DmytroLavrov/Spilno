@@ -69,12 +69,7 @@
           </span>
         </div>
 
-        <p-avatar
-          [label]="userInitials()"
-          shape="circle"
-          styleClass="topbar__avatar"
-          [style]="{ background: avatarColor(), color: '#fff' }"
-        />
+        <app-user-avatar [name]="userName()" shape="circle" styleClass="topbar__avatar" />
 
         <p-button
           icon="pi pi-sign-out"

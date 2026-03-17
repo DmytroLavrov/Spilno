@@ -6,7 +6,6 @@ import { TabsModule } from 'primeng/tabs';
 import { Badge } from 'primeng/badge';
 import { TableModule } from 'primeng/table';
 import { DatePipe } from '@angular/common';
-import { Avatar } from 'primeng/avatar';
 import { Button } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { Toast } from 'primeng/toast';
@@ -15,6 +14,7 @@ import { Select } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
+import { UserAvatarComponent } from '@shared/components/user-avatar/user-avatar.component';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -32,7 +32,6 @@ const STATUS_META: Record<UserStatus, { label: string; severity: TagSeverity }> 
     TabsModule,
     Badge,
     TableModule,
-    Avatar,
     Button,
     Tag,
     Toast,
@@ -40,6 +39,7 @@ const STATUS_META: Record<UserStatus, { label: string; severity: TagSeverity }> 
     Select,
     EmptyStateComponent,
     PageHeaderComponent,
+    UserAvatarComponent,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './user-list.component.html',
@@ -71,20 +71,6 @@ export class UserListComponent {
   public allUsers = computed(() => [...this.pendingUsers(), ...this.activeUsers()]);
 
   // Helpers
-  public initials(user: User): string {
-    return user.name
-      .split(/\s+/)
-      .slice(0, 2)
-      .map((w) => w.charAt(0))
-      .join('')
-      .toUpperCase();
-  }
-
-  public avatarColor(name: string): string {
-    const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
-    return colors[name.charCodeAt(0) % colors.length];
-  }
-
   public getStatusMeta(status: UserStatus) {
     return this.statusMeta[status];
   }

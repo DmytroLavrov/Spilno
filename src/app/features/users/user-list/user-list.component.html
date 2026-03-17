@@ -59,11 +59,7 @@
                 <td>
                   <span class="p-column-title">Мешканець</span>
                   <div class="user-cell">
-                    <p-avatar
-                      [label]="initials(user)"
-                      shape="circle"
-                      [style]="{ background: '#f59e0b', color: '#fff' }"
-                    />
+                    <app-user-avatar [name]="user.name" color="#f59e0b" />
                     <div>
                       <div class="user-cell__name">{{ user.name }}</div>
                       <div class="user-cell__email">{{ user.email }}</div>
@@ -143,11 +139,7 @@
               <td>
                 <span class="p-column-title">Мешканець</span>
                 <div class="user-cell">
-                  <p-avatar
-                    [label]="initials(user)"
-                    shape="circle"
-                    [style]="{ background: avatarColor(user.name), color: '#fff' }"
-                  />
+                  <app-user-avatar [name]="user.name" />
                   <div>
                     <div class="user-cell__name">{{ user.name }}</div>
                     <div class="user-cell__email">{{ user.email }}</div>
@@ -242,11 +234,7 @@
                 <td>
                   <span class="p-column-title">Мешканець</span>
                   <div class="user-cell">
-                    <p-avatar
-                      [label]="initials(user)"
-                      shape="circle"
-                      [style]="{ background: '#ef4444', color: '#fff' }"
-                    />
+                    <app-user-avatar [name]="user.name" color="#ef4444" />
                     <div>
                       <div class="user-cell__name">{{ user.name }}</div>
                       <div class="user-cell__email">{{ user.email }}</div>
