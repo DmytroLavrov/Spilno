@@ -1,3 +1,5 @@
+@use 'styles/mixins' as *;
+
 .auth-btn,
 .p-button.auth-btn {
   margin-top: 1.5rem;
@@ -37,12 +39,12 @@
     transform: scale(1.05);
   }
 
-  @media (max-width: 768px) {
+  @include tablet {
     bottom: 1.5rem;
     right: 1.5rem;
   }
 
-  @media (max-width: 480px) {
+  @include mobile {
     bottom: 1rem;
     right: 1rem;
 

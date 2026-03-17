@@ -1,3 +1,5 @@
+@use 'styles/mixins' as *;
+
 .apartment-badge {
   font-size: 0.875rem;
   font-weight: 600;
@@ -6,7 +8,7 @@
   padding: 0.35rem 0.75rem;
   border-radius: 20px;
 
-  @media (max-width: 480px) {
+  @include mobile {
     font-size: 0.75rem;
     padding: 0.25rem 0.5rem;
   }
@@ -19,20 +21,20 @@
   align-items: start;
 }
 
-@media (max-width: 992px) {
+@include tablet-lg {
   .resident-grid {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 480px) {
+@include mobile {
   .resident-grid {
     gap: 1rem;
   }
 }
 
 :host ::ng-deep {
-  @media (max-width: 480px) {
+  @include mobile {
     .p-card .p-card-body {
       padding: 1rem;
       gap: 1.25rem;
@@ -68,7 +70,7 @@
     margin: 0;
   }
 
-  @media (max-width: 480px) {
+  @include mobile {
     padding: 1.5rem 0.5rem;
     i {
       font-size: 2.5rem;
@@ -86,7 +88,7 @@
   gap: 0.5rem;
   word-break: break-word;
 
-  @media (max-width: 480px) {
+  @include mobile {
     padding-bottom: 1rem;
   }
 }
@@ -97,7 +99,7 @@
   gap: 0.75rem;
   flex-wrap: wrap;
 
-  @media (max-width: 480px) {
+  @include mobile {
     gap: 0.5rem;
   }
 }
@@ -107,7 +109,7 @@
   font-size: 1.05rem;
   color: var(--p-text-color);
 
-  @media (max-width: 480px) {
+  @include mobile {
     font-size: 0.95rem;
   }
 }
@@ -118,7 +120,7 @@
   font-size: 0.95rem;
   line-height: 1.4;
 
-  @media (max-width: 480px) {
+  @include mobile {
     font-size: 0.85rem;
   }
 }
@@ -196,10 +198,7 @@
   margin: 0 0 1rem 0;
   line-height: 1.5;
 
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  @include line-clamp(3);
 }
 
 .announcement-date {

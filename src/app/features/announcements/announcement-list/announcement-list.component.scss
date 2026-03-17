@@ -1,3 +1,5 @@
+@use 'styles/mixins' as *;
+
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -27,7 +29,7 @@
   flex-direction: column;
   gap: 1.5rem;
 
-  @media (max-width: 480px) {
+  @include mobile {
     gap: 1rem;
   }
 }
@@ -59,7 +61,7 @@
   &__body {
     padding: 1.5rem;
 
-    @media (max-width: 480px) {
+    @include mobile {
       padding: 1.25rem 1rem;
     }
   }
@@ -92,7 +94,7 @@
     color: var(--p-text-color);
     line-height: 1.4;
 
-    @media (max-width: 480px) {
+    @include mobile {
       font-size: 1.15rem;
     }
   }
@@ -147,7 +149,7 @@
   border-radius: 16px;
   padding: 1.5rem;
 
-  @media (max-width: 480px) {
+  @include mobile {
     padding: 1.25rem 1rem;
   }
 }

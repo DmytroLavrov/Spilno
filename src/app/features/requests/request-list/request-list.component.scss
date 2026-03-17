@@ -1,3 +1,5 @@
+@use 'styles/mixins' as *;
+
 .filters-bar {
   display: flex;
   gap: 1rem;
@@ -16,13 +18,13 @@
     .filter-search {
       width: 100%;
 
-      @media (max-width: 480px) {
+      @include mobile {
         font-size: 14px;
       }
     }
   }
 
-  @media (max-width: 576px) {
+  @include mobile-lg {
     flex-direction: column;
     align-items: stretch;
 
@@ -36,7 +38,7 @@
 
 :host ::ng-deep {
   /* Desktop */
-  @media (min-width: 769px) {
+  @include desktop {
     .p-column-title {
       display: none !important;
     }
@@ -51,7 +53,7 @@
   }
 
   /* Mobiles (Card view) */
-  @media (max-width: 768px) {
+  @include tablet {
     .p-datatable-thead {
       display: none !important;
     }
@@ -108,11 +110,7 @@
       max-width: 100%;
       text-align: right;
       white-space: normal;
-      word-break: break-word;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      @include line-clamp(3);
     }
 
     .status-dropdown {
@@ -126,7 +124,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @include mobile {
     .p-datatable-tbody > tr > td {
       padding: 0.6rem 0.75rem !important;
       flex-wrap: wrap;
@@ -156,13 +154,13 @@
 
 // ── Highlighting "New" ──
 .row--new {
-  @media (min-width: 769px) {
+  @include desktop {
     td:first-child {
       box-shadow: inset 3px 0 0 0 var(--p-red-500, #ef4444);
     }
   }
 
-  @media (max-width: 768px) {
+  @include tablet {
     position: relative;
     &::before {
       content: '';
@@ -209,7 +207,7 @@
     width: 100%;
   }
 
-  @media (max-width: 576px) {
+  @include mobile-lg {
     .filter-dropdown,
     .filter-search-wrapper {
       width: 100%;
@@ -220,7 +218,7 @@
 
 :host ::ng-deep {
   /* Desktop */
-  @media (min-width: 769px) {
+  @include desktop {
     .p-datatable-wrapper {
       overflow-x: auto;
     }

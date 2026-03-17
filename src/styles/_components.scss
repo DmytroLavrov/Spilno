@@ -1,3 +1,5 @@
+@use 'styles/mixins' as *;
+
 .p-card {
   background: var(--app-surface) !important;
   color: var(--app-text) !important;
@@ -23,7 +25,7 @@
 }
 
 // ── Toast (pop-up messages) adaptation for mobile ──
-@media (max-width: 480px) {
+@include mobile {
   .p-toast {
     width: 90vw !important;
     left: 50% !important;

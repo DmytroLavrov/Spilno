@@ -1,3 +1,5 @@
+@use 'styles/mixins' as *;
+
 /* ══════════════════════════════════════
    Auth & Generic Form Layouts
 ══════════════════════════════════════ */
@@ -107,9 +109,7 @@
   text-align: center;
   color: var(--app-text-muted);
   font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   gap: 0.4rem;
 
   a {
@@ -156,22 +156,7 @@ textarea {
 
   padding-right: 1.5rem !important;
 
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--p-content-border-color, #52525b);
-    border-radius: 4px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: var(--p-text-muted-color, #a1a1aa);
-  }
+  @include custom-scrollbar;
 }
 
 .form-actions {
@@ -183,7 +168,7 @@ textarea {
   border-top: 1px solid var(--p-textarea-hover-border-color);
 
   // ── Adaptation for narrow mobile phones ──
-  @media (max-width: 480px) {
+  @include mobile {
     flex-direction: column-reverse;
     align-items: stretch;
     gap: 0.75rem;

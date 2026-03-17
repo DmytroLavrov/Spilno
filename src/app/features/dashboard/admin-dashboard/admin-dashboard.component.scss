@@ -1,3 +1,5 @@
+@use 'styles/mixins' as *;
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
@@ -32,13 +34,13 @@
     border-left: 4px solid var(--blue-500);
   }
 
-  @media (min-width: 769px) {
+  @include desktop {
     .p-column-title {
       display: none !important;
     }
   }
 
-  @media (max-width: 768px) {
+  @include tablet {
     .p-column-title {
       display: inline-block;
       font-weight: 600;
@@ -69,7 +71,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @include mobile {
     .p-datatable-tbody > tr > td {
       padding: 0.5rem 0.5rem !important;
     }
