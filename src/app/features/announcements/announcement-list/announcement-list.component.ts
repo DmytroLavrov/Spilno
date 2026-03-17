@@ -11,6 +11,8 @@ import { Dialog } from 'primeng/dialog';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
 import { AnnouncementFormComponent } from '@features/announcements/announcement-form/announcement-form.component';
+import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
+import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-announcement-list',
@@ -23,6 +25,8 @@ import { AnnouncementFormComponent } from '@features/announcements/announcement-
     ConfirmDialog,
     Toast,
     AnnouncementFormComponent,
+    EmptyStateComponent,
+    PageHeaderComponent,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './announcement-list.component.html',

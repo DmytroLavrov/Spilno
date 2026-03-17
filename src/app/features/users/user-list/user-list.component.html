@@ -1,13 +1,5 @@
 <div class="page-wrapper">
-  <div class="page-header">
-    <div>
-      <h1 class="page-title">Мешканці</h1>
-      <span class="page-subtitle">
-        Активних: {{ activeUsers().length }} · Очікують: {{ pendingUsers().length }} · Відхилених:
-        {{ rejectedUsers().length }}
-      </span>
-    </div>
-  </div>
+  <app-page-header title="Мешканці" [subtitle]="subtitleText()" />
 
   <p-tabs [(value)]="activeTab">
     <p-tablist>
@@ -39,10 +31,12 @@
     <p-tabpanels>
       <p-tabpanel value="0">
         @if (pendingUsers().length === 0) {
-          <div class="empty-state">
-            <i class="pi pi-check-circle"></i>
-            <p>Нових заявок на реєстрацію немає</p>
-          </div>
+          <app-empty-state
+            variant="bordered"
+            icon="pi pi-check-circle"
+            iconColor="var(--p-green-400)"
+            message="Нових заявок на реєстрацію немає"
+          />
         } @else {
           <p-table
             [value]="pendingUsers()"
@@ -65,11 +59,7 @@
                 <td>
                   <span class="p-column-title">Мешканець</span>
                   <div class="user-cell">
-                    <p-avatar
-                      [label]="initials(user)"
-                      shape="circle"
-                      [style]="{ background: '#f59e0b', color: '#fff' }"
-                    />
+                    <app-user-avatar [name]="user.name" color="#f59e0b" />
                     <div>
                       <div class="user-cell__name">{{ user.name }}</div>
                       <div class="user-cell__email">{{ user.email }}</div>
@@ -149,11 +139,7 @@
               <td>
                 <span class="p-column-title">Мешканець</span>
                 <div class="user-cell">
-                  <p-avatar
-                    [label]="initials(user)"
-                    shape="circle"
-                    [style]="{ background: avatarColor(user.name), color: '#fff' }"
-                  />
+                  <app-user-avatar [name]="user.name" />
                   <div>
                     <div class="user-cell__name">{{ user.name }}</div>
                     <div class="user-cell__email">{{ user.email }}</div>
@@ -220,10 +206,12 @@
 
       <p-tabpanel value="2">
         @if (rejectedUsers().length === 0) {
-          <div class="empty-state">
-            <i class="pi pi-check-circle"></i>
-            <p>Відхилених користувачів немає</p>
-          </div>
+          <app-empty-state
+            variant="bordered"
+            icon="pi pi-check-circle"
+            iconColor="var(--p-red-400)"
+            message="Відхилених користувачів немає"
+          />
         } @else {
           <p-table
             [value]="rejectedUsers()"
@@ -246,11 +234,7 @@
                 <td>
                   <span class="p-column-title">Мешканець</span>
                   <div class="user-cell">
-                    <p-avatar
-                      [label]="initials(user)"
-                      shape="circle"
-                      [style]="{ background: '#ef4444', color: '#fff' }"
-                    />
+                    <app-user-avatar [name]="user.name" color="#ef4444" />
                     <div>
                       <div class="user-cell__name">{{ user.name }}</div>
                       <div class="user-cell__email">{{ user.email }}</div>

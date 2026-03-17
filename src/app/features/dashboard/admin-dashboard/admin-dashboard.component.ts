@@ -7,8 +7,8 @@ import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
 import { Button } from 'primeng/button';
 import { UserService } from '@core/services/user.service';
-
-type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
+import { StatusLabelPipe } from '@shared/pipes/status-label.pipe';
+import { StatusSeverityPipe } from '@shared/pipes/status-severity.pipe';
 
 const TYPE_LABELS: Record<string, string> = {
   plumbing: '🔧 Сантехніка',
@@ -18,7 +18,7 @@ const TYPE_LABELS: Record<string, string> = {
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [RouterLink, Card, TableModule, Tag, Button],
+  imports: [RouterLink, Card, TableModule, Tag, Button, StatusLabelPipe, StatusSeverityPipe],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,27 +51,6 @@ export class AdminDashboardComponent {
   public recentRequests = computed(() => this.requestService.requests().slice(0, 5));
 
   // ── Helpers for PrimeNG Tag ──
-  public statusLabel(status: RequestStatus): string {
-    const map: Record<RequestStatus, string> = {
-      new: 'Нова',
-      in_progress: 'В обробці',
-      done: 'Виконано',
-      rejected: 'Відхилено',
-    };
-    return map[status];
-  }
-
-  public statusSeverity(status: RequestStatus): TagSeverity {
-    const map: Record<RequestStatus, TagSeverity> = {
-      new: 'danger',
-      in_progress: 'warn',
-      done: 'success',
-      rejected: 'secondary',
-    };
-
-    return map[status];
-  }
-
   public typeLabel(type: string): string {
     return TYPE_LABELS[type] || type;
   }

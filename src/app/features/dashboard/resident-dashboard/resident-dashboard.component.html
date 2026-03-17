@@ -7,20 +7,25 @@
   <div class="resident-grid">
     <p-card header="Мої заявки" styleClass="requests-card">
       @if (myRequests().length === 0) {
-        <div class="empty-state">
-          <i class="pi pi-inbox"></i>
-          <p>У вас ще немає заявок</p>
-          <a routerLink="/requests" [queryParams]="{ new: true }">
-            <p-button label="Створити першу заявку" icon="pi pi-plus" />
-          </a>
-        </div>
+        <app-empty-state
+          iconSize="small"
+          iconColor="var(--p-surface-400)"
+          icon="pi pi-inbox"
+          message="У вас ще немає заявок"
+          actionLabel="Створити першу заявку"
+          actionIcon="pi pi-plus"
+          (actionClick)="navigateToRequestForm()"
+        />
       } @else {
         <p-timeline [value]="myRequests()" styleClass="request-timeline">
           <ng-template pTemplate="content" let-req>
             <div class="timeline-item">
               <div class="timeline-item__header">
                 <span class="timeline-item__type">{{ typeLabel(req.type) }}</span>
-                <p-tag [value]="statusLabel(req.status)" [severity]="statusSeverity(req.status)" />
+                <p-tag
+                  [value]="req.status | statusLabel"
+                  [severity]="req.status | statusSeverity"
+                />
               </div>
               <p class="timeline-item__desc">{{ req.description }}</p>
               <span class="timeline-item__date"> {{ req.createdAt | date: 'dd.MM.yyyy' }} </span>

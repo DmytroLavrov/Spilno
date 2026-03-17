@@ -22,8 +22,11 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { InputText } from 'primeng/inputtext';
 import { Dialog } from 'primeng/dialog';
-import { RequestFormComponent } from '../request-form/request-form.component';
+import { RequestFormComponent } from '@features/requests/request-form/request-form.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
+import { StatusLabelPipe } from '@shared/pipes/status-label.pipe';
+import { StatusSeverityPipe } from '@shared/pipes/status-severity.pipe';
 
 type TagSeverity = 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast';
 
@@ -64,6 +67,9 @@ export const TYPE_META: Record<RequestType, string> = {
     InputText,
     Dialog,
     RequestFormComponent,
+    PageHeaderComponent,
+    StatusLabelPipe,
+    StatusSeverityPipe,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './request-list.component.html',
@@ -133,33 +139,18 @@ export class RequestListComponent implements OnInit {
     return TYPE_META[type];
   }
 
-  public statusLabel(status: RequestStatus): string {
-    const map: Record<RequestStatus, string> = {
-      new: 'Нова',
-      in_progress: 'В обробці',
-      done: 'Виконано',
-      rejected: 'Відхилено',
-    };
-    return map[status];
-  }
-
-  public statusSeverity(status: RequestStatus): TagSeverity {
-    const map: Record<RequestStatus, TagSeverity> = {
-      new: 'danger',
-      in_progress: 'warn',
-      done: 'success',
-      rejected: 'secondary',
-    };
-
-    return map[status];
-  }
-
   public canDelete(req: MaintenanceRequest): boolean {
     const user = this.authService.currentUser();
     if (user?.role === 'admin') return true;
     // A resident can only delete their new application
     return req.userId === user?.id && req.status === 'new';
   }
+
+  public subtitleText = computed(() => {
+    const total = `Всього: ${this.filtered().length}`;
+    const filter = this.activeFilter() ? ' · Фільтр активний' : '';
+    return total + filter;
+  });
 
   // ── Actions ──
   public applyFilter() {

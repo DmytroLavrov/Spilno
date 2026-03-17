@@ -5,8 +5,8 @@ import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
 import { Badge } from 'primeng/badge';
 import { Button } from 'primeng/button';
-import { AvatarModule } from 'primeng/avatar';
 import { DrawerModule } from 'primeng/drawer';
+import { UserAvatarComponent } from '@shared/components/user-avatar/user-avatar.component';
 
 interface NavItem {
   label: string;
@@ -26,8 +26,8 @@ interface NavItem {
     TooltipModule,
     Badge,
     Button,
-    AvatarModule,
     DrawerModule,
+    UserAvatarComponent,
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
@@ -50,28 +50,6 @@ export class MainLayoutComponent {
   public isAdmin = computed(() => this.authService.currentUser()?.role === 'admin');
   public userName = computed(() => this.authService.currentUser()?.name ?? '');
   public apartmentNumber = computed(() => this.authService.currentUser()?.apartmentNumber ?? '');
-
-  public userInitials = computed(() => {
-    const name = this.userName()?.trim();
-    if (!name) return '';
-
-    return name
-      .split(/\s+/)
-      .slice(0, 2)
-      .map((w) => w.charAt(0))
-      .join('')
-      .toUpperCase();
-  });
-
-  public avatarColor = computed(() => {
-    const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
-    const name = this.userName()?.trim();
-
-    if (!name) return colors[0];
-
-    const index = name.charCodeAt(0) % colors.length;
-    return colors[index];
-  });
 
   private navItems: NavItem[] = [
     {

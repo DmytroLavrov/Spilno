@@ -1,19 +1,9 @@
 <div class="page-wrapper">
-  <div class="page-header page-header--flex">
-    <div>
-      <h1 class="page-title">Заявки</h1>
-      <span class="page-subtitle">
-        Всього: {{ filtered().length }}
-        @if (activeFilter()) {
-          · Фільтр активний
-        }
-      </span>
-    </div>
-
+  <app-page-header title="Заявки" [subtitle]="subtitleText()" [flex]="true">
     @if (isResident()) {
       <p-button label="Нова заявка" icon="pi pi-plus" (onClick)="openNewRequestDialog()" />
     }
-  </div>
+  </app-page-header>
 
   @if (isAdmin()) {
     <div class="filters-bar">
@@ -121,11 +111,14 @@
                 appendTo="body"
               >
                 <ng-template pTemplate="selectedItem" let-item>
-                  <p-tag [value]="item.label" [severity]="statusSeverity(item.value)" />
+                  <p-tag
+                    [value]="item.label | statusLabel"
+                    [severity]="req.status | statusSeverity"
+                  />
                 </ng-template>
               </p-select>
             } @else {
-              <p-tag [value]="statusLabel(req.status)" [severity]="statusSeverity(req.status)" />
+              <p-tag [value]="req.status | statusLabel" [severity]="req.status | statusSeverity" />
             }
           </div>
         </td>

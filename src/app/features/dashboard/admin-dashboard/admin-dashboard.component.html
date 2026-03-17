@@ -69,7 +69,7 @@
           </td>
           <td>
             <span class="p-column-title">Статус</span>
-            <p-tag [value]="statusLabel(req.status)" [severity]="statusSeverity(req.status)" />
+            <p-tag [value]="req.status | statusLabel" [severity]="req.status | statusSeverity" />
           </td>
           <td>
             <a [routerLink]="['/requests', req.id]">
