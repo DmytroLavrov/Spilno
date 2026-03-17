@@ -1,7 +1,9 @@
 @use 'styles/variables';
+@use 'styles/mixins';
 
 @use 'styles/reset';
 
+@use 'styles/pages';
 @use 'styles/components';
 @use 'styles/forms';
 @use 'styles/buttons';

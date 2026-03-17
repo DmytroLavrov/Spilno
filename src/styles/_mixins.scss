@@ -1,0 +1,99 @@
+@use 'sass:map';
+
+// $breakpoints: (
+//   'sm': 480px,
+//   'md': 768px,
+//   'lg': 992px,
+// );
+
+$breakpoints: (
+  'xs': 480px,
+  'sm': 576px,
+  'md': 640px,
+  'lg': 768px,
+  'xl': 992px,
+);
+
+/* ── Screen Reduction (Max-Width) ── */
+@mixin mobile {
+  @media (max-width: map.get($breakpoints, 'xs')) {
+    @content;
+  }
+}
+
+@mixin mobile-lg {
+  @media (max-width: map-get($breakpoints, 'sm')) {
+    @content;
+  }
+}
+
+@mixin tablet-sm {
+  @media (max-width: map-get($breakpoints, 'md')) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: map.get($breakpoints, 'lg')) {
+    @content;
+  }
+}
+
+@mixin tablet-lg {
+  @media (max-width: map-get($breakpoints, 'xl')) {
+    @content;
+  }
+}
+
+/* ── Screen magnification (Min-Width) ── */
+@mixin desktop {
+  // Use 769px so it doesn't overlap with max-width: 768px
+  @media (min-width: 769px) {
+    @content;
+  }
+}
+
+@mixin desktop-lg {
+  // Use for large grids (min-width: 992px)
+  @media (min-width: map.get($breakpoints, 'xl')) {
+    @content;
+  }
+}
+
+@mixin line-clamp($lines: 1) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+@mixin custom-scrollbar(
+  $width: 8px,
+  $thumb-color: var(--p-content-border-color, #52525b),
+  $hover-color: var(--p-text-muted-color, #a1a1aa)
+) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumb-color;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: $hover-color;
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

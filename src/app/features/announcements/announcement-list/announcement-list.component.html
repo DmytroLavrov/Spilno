@@ -1,8 +1,8 @@
-<div class="announcements">
-  <div class="announcements-header">
+<div class="page-wrapper">
+  <div class="page-header page-header--flex">
     <div>
-      <h1 class="announcements-title">Оголошення</h1>
-      <span class="announcements-subtitle">
+      <h1 class="page-title">Оголошення</h1>
+      <span class="page-subtitle">
         Всього: {{ announcements().length }} · Важливих: {{ importantCount() }}
       </span>
     </div>
@@ -89,6 +89,7 @@
   <app-announcement-form
     [announcement]="editingAnnouncement()"
     [submitting]="submitting()"
+    [isOpen]="formVisible"
     (formSubmit)="handleSubmit($event)"
     (formCancel)="closeForm()"
   />

@@ -19,6 +19,7 @@ export class AnnouncementFormComponent {
 
   public announcement = input<Announcement | null>(null);
   public submitting = input<boolean>(false);
+  public isOpen = input<boolean>(false);
 
   public formSubmit = output<{ title: string; content: string; important: boolean }>();
   public formCancel = output<void>();
@@ -40,13 +41,17 @@ export class AnnouncementFormComponent {
   constructor() {
     effect(() => {
       // When an announcement comes for editing — fill out the form
+      const open = this.isOpen();
       const ann = this.announcement();
-      if (ann) {
-        this.form.setValue({
-          title: ann.title,
-          content: ann.content,
-          important: ann.important,
-        });
+
+      if (open) {
+        if (ann) {
+          this.form.setValue({
+            title: ann.title,
+            content: ann.content,
+            important: ann.important,
+          });
+        }
       } else {
         this.form.reset({ important: false });
       }

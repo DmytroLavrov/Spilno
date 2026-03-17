@@ -1,33 +1,4 @@
-.requests {
-  padding: 1.5rem;
-  max-width: 1400px;
-  margin: 0 auto;
-
-  @media (max-width: 768px) {
-    padding: 1rem 0.5rem;
-  }
-}
-
-.requests-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-
-  .requests-title {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin: 0 0 0.25rem 0;
-    color: var(--p-text-color);
-  }
-
-  .requests-subtitle {
-    font-size: 0.875rem;
-    color: var(--p-text-muted-color);
-  }
-}
+@use 'styles/mixins' as *;
 
 .filters-bar {
   display: flex;
@@ -47,13 +18,13 @@
     .filter-search {
       width: 100%;
 
-      @media (max-width: 480px) {
+      @include mobile {
         font-size: 14px;
       }
     }
   }
 
-  @media (max-width: 576px) {
+  @include mobile-lg {
     flex-direction: column;
     align-items: stretch;
 
@@ -62,18 +33,12 @@
       width: 100%;
       min-width: 100%;
     }
-
-    button {
-      align-self: flex-start;
-      width: 100%;
-      justify-content: center;
-    }
   }
 }
 
 :host ::ng-deep {
   /* Desktop */
-  @media (min-width: 769px) {
+  @include desktop {
     .p-column-title {
       display: none !important;
     }
@@ -88,7 +53,7 @@
   }
 
   /* Mobiles (Card view) */
-  @media (max-width: 768px) {
+  @include tablet {
     .p-datatable-thead {
       display: none !important;
     }
@@ -145,11 +110,7 @@
       max-width: 100%;
       text-align: right;
       white-space: normal;
-      word-break: break-word;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      @include line-clamp(3);
     }
 
     .status-dropdown {
@@ -163,7 +124,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @include mobile {
     .p-datatable-tbody > tr > td {
       padding: 0.6rem 0.75rem !important;
       flex-wrap: wrap;
@@ -193,13 +154,13 @@
 
 // ── Highlighting "New" ──
 .row--new {
-  @media (min-width: 769px) {
+  @include desktop {
     td:first-child {
       box-shadow: inset 3px 0 0 0 var(--p-red-500, #ef4444);
     }
   }
 
-  @media (max-width: 768px) {
+  @include tablet {
     position: relative;
     &::before {
       content: '';
@@ -246,7 +207,7 @@
     width: 100%;
   }
 
-  @media (max-width: 576px) {
+  @include mobile-lg {
     .filter-dropdown,
     .filter-search-wrapper {
       width: 100%;
@@ -257,7 +218,7 @@
 
 :host ::ng-deep {
   /* Desktop */
-  @media (min-width: 769px) {
+  @include desktop {
     .p-datatable-wrapper {
       overflow-x: auto;
     }
@@ -284,28 +245,6 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-  }
-}
-
-// ── Toast (pop-up messages) adaptation for mobile ──
-:host ::ng-deep {
-  @media (max-width: 480px) {
-    .p-toast {
-      width: 90vw !important;
-      left: 50% !important;
-      right: auto !important;
-      transform: translateX(-50%) !important;
-      bottom: 1rem !important;
-    }
-
-    .p-toast-message-content {
-      align-items: center;
-      padding: 0.75rem !important;
-    }
-
-    .p-toast-detail {
-      word-break: break-word;
     }
   }
 }

@@ -1,37 +1,4 @@
-.announcements {
-  padding: 1.5rem;
-  max-width: 1400px;
-
-  @media (max-width: 768px) {
-    padding: 1rem 0.5rem;
-  }
-}
-
-.announcements-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-
-  .announcements-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin: 0 0 0.25rem 0;
-    color: var(--p-text-color);
-
-    @media (max-width: 480px) {
-      font-size: 1.5rem;
-    }
-  }
-
-  .announcements-subtitle {
-    font-size: 0.9rem;
-    color: var(--p-text-muted-color);
-    font-weight: 500;
-  }
-}
+@use 'styles/mixins' as *;
 
 .empty-state {
   display: flex;
@@ -62,7 +29,7 @@
   flex-direction: column;
   gap: 1.5rem;
 
-  @media (max-width: 480px) {
+  @include mobile {
     gap: 1rem;
   }
 }
@@ -94,7 +61,7 @@
   &__body {
     padding: 1.5rem;
 
-    @media (max-width: 480px) {
+    @include mobile {
       padding: 1.25rem 1rem;
     }
   }
@@ -127,7 +94,7 @@
     color: var(--p-text-color);
     line-height: 1.4;
 
-    @media (max-width: 480px) {
+    @include mobile {
       font-size: 1.15rem;
     }
   }
@@ -182,7 +149,7 @@
   border-radius: 16px;
   padding: 1.5rem;
 
-  @media (max-width: 480px) {
+  @include mobile {
     padding: 1.25rem 1rem;
   }
 }
@@ -193,27 +160,5 @@
   }
   .mb-1 {
     margin-bottom: 0.5rem !important;
-  }
-}
-
-// ── Toast (pop-up messages) adaptation for mobile ──
-:host ::ng-deep {
-  @media (max-width: 480px) {
-    .p-toast {
-      width: 90vw !important;
-      left: 50% !important;
-      right: auto !important;
-      transform: translateX(-50%) !important;
-      bottom: 1rem !important;
-    }
-
-    .p-toast-message-content {
-      align-items: center;
-      padding: 0.75rem !important;
-    }
-
-    .p-toast-detail {
-      word-break: break-word;
-    }
   }
 }

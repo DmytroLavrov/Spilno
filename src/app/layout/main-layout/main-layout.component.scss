@@ -1,3 +1,5 @@
+@use 'styles/mixins' as *;
+
 .layout {
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
@@ -117,9 +119,7 @@
   border-radius: 8px;
   color: var(--app-text-muted);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   transition:
     background 0.15s,
     color 0.15s;
@@ -151,7 +151,7 @@
     background-color 0.3s,
     border-color 0.3s;
 
-  @media (max-width: 480px) {
+  @include mobile {
     padding: 1rem;
   }
 }
@@ -211,12 +211,12 @@
 
   overflow-x: hidden;
 
-  @media (max-width: 480px) {
+  @include mobile {
     padding: 1rem;
   }
 }
 
-@media (max-width: 768px) {
+@include tablet {
   .layout {
     grid-template-columns: minmax(0, 1fr) !important;
   }

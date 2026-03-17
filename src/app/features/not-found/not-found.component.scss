@@ -1,8 +1,8 @@
+@use 'styles/mixins' as *;
+
 .not-found {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   padding: 2rem;
 }
 
@@ -80,7 +80,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@include tablet-sm {
   .not-found__actions {
     flex-direction: column;
     width: 100%;
