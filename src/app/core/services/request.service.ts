@@ -13,7 +13,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { MaintenanceRequest, RequestStatus } from '@models/request.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -56,6 +56,10 @@ export class RequestService {
                   }) as MaintenanceRequest,
               ),
             ),
+            catchError((err) => {
+              console.error('Помилка доступу до заявок:', err);
+              return of([]);
+            }),
           );
         });
       }),

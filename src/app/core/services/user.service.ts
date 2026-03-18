@@ -13,7 +13,8 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { User, UserStatus } from '@models/user.model';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
+import { AuthService } from '@core/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,33 +22,41 @@ import { map, Observable } from 'rxjs';
 export class UserService {
   private firestore = inject(Firestore);
   private injector = inject(Injector);
+  private authService = inject(AuthService);
 
   private usersCol = collection(this.firestore, 'users');
 
   // Residents awaiting approval
-  private pendingUsers$: Observable<User[]> = collectionData(
-    query(this.usersCol, where('status', '==', 'pending')),
-    {
-      idField: 'id',
-    },
-  ).pipe(
-    map((docs) =>
-      docs.map(
-        (d) =>
-          ({
-            ...d,
-            createdAt: (d['createdAt'] as Timestamp)?.toDate() || new Date(),
-          }) as User,
-      ),
-    ),
+  private pendingUsers$: Observable<User[]> = this.authService.currentUser$.pipe(
+    switchMap((user) => {
+      if (!user || user.role !== 'admin') {
+        return of([]);
+      }
+
+      return runInInjectionContext(this.injector, () => {
+        const q = query(this.usersCol, where('status', '==', 'pending'));
+        return collectionData(q, { idField: 'id' }).pipe(
+          map((docs) =>
+            docs.map(
+              (d) =>
+                ({
+                  ...d,
+                  createdAt: (d['createdAt'] as Timestamp)?.toDate() || new Date(),
+                }) as User,
+            ),
+          ),
+          catchError((err) => {
+            console.error('Помилка доступу до pending users:', err);
+            return of([]);
+          }),
+        );
+      });
+    }),
   );
 
   public pendingUsersCount: Signal<number> = toSignal(
     this.pendingUsers$.pipe(map((u) => u.length)),
-    {
-      initialValue: 0,
-      injector: this.injector,
-    },
+    { initialValue: 0, injector: this.injector },
   );
 
   public pendingUsers: Signal<User[]> = toSignal(this.pendingUsers$, {

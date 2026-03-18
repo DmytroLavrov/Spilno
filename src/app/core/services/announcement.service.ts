@@ -14,7 +14,7 @@ import {
 } from '@angular/fire/firestore';
 import { AuthService } from '@core/services/auth.service';
 import { Announcement } from '@models/announcement.model';
-import { map, Observable } from 'rxjs';
+import { map, Observable, switchMap, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -27,20 +27,32 @@ export class AnnouncementService {
   private announcementsCol = collection(this.firestore, 'announcements');
 
   // Announcements — sorted: important ones at the top, the rest by date
-  private announcements$: Observable<Announcement[]> = collectionData(
-    query(this.announcementsCol, orderBy('createdAt', 'desc')),
-    { idField: 'id' },
-  ).pipe(
-    map((docs) => {
-      const list = docs.map(
-        (d) =>
-          ({
-            ...d,
-            createdAt: (d['createdAt'] as Timestamp).toDate(),
-          }) as Announcement,
-      );
+  private announcements$: Observable<Announcement[]> = this.authService.currentUser$.pipe(
+    switchMap((user) => {
+      if (!user) {
+        return of([]);
+      }
 
-      return [...list.filter((a) => a.important), ...list.filter((a) => !a.important)];
+      return runInInjectionContext(this.injector, () => {
+        return collectionData(query(this.announcementsCol, orderBy('createdAt', 'desc')), {
+          idField: 'id',
+        }).pipe(
+          map((docs) => {
+            const list = docs.map(
+              (d) =>
+                ({
+                  ...d,
+                  createdAt: (d['createdAt'] as Timestamp).toDate(),
+                }) as Announcement,
+            );
+            return [...list.filter((a) => a.important), ...list.filter((a) => !a.important)];
+          }),
+          catchError((err) => {
+            console.error('Помилка доступу до оголошень:', err);
+            return of([]);
+          }),
+        );
+      });
     }),
   );
 
