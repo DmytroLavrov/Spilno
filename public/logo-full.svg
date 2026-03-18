@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="orgGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316" /> 
+      <stop offset="100%" stop-color="#fbbf24" /> 
+    </linearGradient>
+    <linearGradient id="orgGrad2" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a" /> 
+      <stop offset="100%" stop-color="#3b82f6" /> 
+    </linearGradient>
+  </defs>
+
+  <g style="mix-blend-mode: multiply;" transform="translate(-44, -80) scale(3)">
+    <path d="M100,140 C60,140 40,110 40,75 C40,40 70,30 100,50 C100,50 100,140 100,140 Z" fill="url(#orgGrad1)" opacity="0.85" />
+    
+    <path d="M100,140 C140,140 160,110 160,75 C160,40 130,30 100,50 C100,50 100,140 100,140 Z" fill="url(#orgGrad2)" opacity="0.85" />
+  </g>
+
+  <path d="M256,294 L218,332 L218,370 L294,370 L294,332 Z" fill="#ffffff" transform="translate(-128, -300) scale(1.5)"  />
+
+  <text x="256" y="415" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-weight="800" font-size="72" text-anchor="middle" fill="#1e3a8a" letter-spacing="0.05em">Spilno</text>
+  <text x="256" y="466" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-weight="600" font-size="26" text-anchor="middle" fill="#f97316" letter-spacing="0.1em">РАЗОМ КРАЩЕ</text>
+</svg>
