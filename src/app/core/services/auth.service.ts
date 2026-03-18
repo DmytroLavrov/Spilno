@@ -3,6 +3,7 @@ import {
   Auth,
   authState,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
 } from '@angular/fire/auth';
@@ -10,6 +11,7 @@ import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { User } from '@models/user.model';
+import { FirebaseError } from 'firebase/app';
 
 @Injectable({
   providedIn: 'root',
@@ -64,6 +66,19 @@ export class AuthService {
     });
     // onAuthStateChanged will trigger by itself and update currentUser
     this.router.navigate(['/dashboard']);
+  }
+
+  public async resetPassword(email: string): Promise<void> {
+    try {
+      await sendPasswordResetEmail(this.auth, email);
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        if (error.code === 'auth/user-not-found') {
+          throw new Error('Користувача з таким email не знайдено');
+        }
+      }
+      throw new Error('Помилка при відправці листа. Спробуйте пізніше.');
+    }
   }
 
   public async logout() {
