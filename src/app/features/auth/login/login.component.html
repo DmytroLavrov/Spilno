@@ -23,7 +23,14 @@
   </div>
 
   <div class="input-group">
-    <label for="password">Пароль</label>
+    <div style="display: flex; justify-content: space-between; align-items: center">
+      <label for="password">Пароль</label>
+      <a
+        routerLink="/auth/forgot-password"
+        style="font-size: 0.8rem; color: var(--p-primary-color); text-decoration: none"
+        >Забули пароль?</a
+      >
+    </div>
     <p-password
       formControlName="password"
       inputId="password"

@@ -23,6 +23,15 @@ export const authRoutes: Routes = [
         canActivate: [guestGuard],
       },
       {
+        path: 'forgot-password',
+        title: 'Відновлення паролю | Spilno',
+        loadComponent: () =>
+          import('@features/auth/forgot-password/forgot-password.component').then(
+            (m) => m.ForgotPasswordComponent,
+          ),
+        canActivate: [guestGuard],
+      },
+      {
         path: 'pending',
         title: 'Очікування підтвердження | Spilno',
         loadComponent: () =>

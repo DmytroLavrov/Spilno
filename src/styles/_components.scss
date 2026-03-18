@@ -24,6 +24,20 @@
   font-size: 0.9rem;
 }
 
+.success-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--p-green-500, #22c55e) 10%, transparent);
+  border-left: 4px solid var(--p-green-500, #22c55e);
+  border-radius: 8px;
+  color: var(--p-green-500, #22c55e);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
 // ── Toast (pop-up messages) adaptation for mobile ──
 @include mobile {
   .p-toast {
