@@ -31,25 +31,30 @@
   }
 
   input,
-  .p-inputtext {
+  .p-inputtext,
+  .p-password input,
+  .p-inputmask input {
     width: 100% !important;
     height: 48px !important;
     padding: 0 1rem !important;
     border-radius: 10px;
     border: 1px solid var(--app-border);
-    background: var(--app-bg);
-    color: var(--app-text);
+    background: var(--app-bg) !important;
+    color: var(--app-text) !important;
+    font-family: inherit;
     transition: all 0.2s ease;
 
     &::placeholder {
-      color: var(--app-text-muted);
+      color: var(--app-text-muted) !important;
     }
+
     &:hover {
       border-color: var(--p-primary-400);
     }
+
     &:focus {
       outline: none;
-      background: var(--app-surface);
+      background: var(--app-surface) !important;
       border-color: var(--p-primary-color);
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-primary-color) 20%, transparent) !important;
     }
@@ -88,11 +93,8 @@
   }
 
   .ng-invalid.ng-touched > .p-inputtext,
-  .ng-invalid.ng-dirty > .p-inputtext,
   input.ng-invalid.ng-touched,
-  input.ng-invalid.ng-dirty,
-  .p-inputwrapper.ng-invalid.ng-touched .p-inputtext,
-  .p-inputwrapper.ng-invalid.ng-dirty .p-inputtext {
+  .p-inputwrapper.ng-invalid.ng-touched .p-inputtext {
     border-color: var(--p-red-500) !important;
     background-color: var(--app-error-bg) !important;
 
@@ -177,5 +179,40 @@ textarea {
       width: 100%;
       justify-content: center;
     }
+  }
+}
+
+/* ══════════════════════════════════════
+  GLOBAL UX VALIDATION FIXES (PrimeNG)
+══════════════════════════════════════ */
+input.ng-invalid::placeholder,
+textarea.ng-invalid::placeholder,
+.p-inputtext.ng-invalid::placeholder,
+.p-inputwrapper.ng-invalid .p-inputtext::placeholder {
+  color: var(--app-text-muted) !important;
+  -webkit-text-fill-color: var(--app-text-muted) !important;
+  opacity: 1 !important;
+}
+
+.p-inputtext.ng-invalid.ng-dirty:not(.ng-touched),
+textarea.ng-invalid.ng-dirty:not(.ng-touched),
+.p-inputwrapper.ng-invalid.ng-dirty:not(.ng-touched) .p-inputtext {
+  border-color: var(--app-border) !important;
+  background-color: var(--app-bg) !important;
+
+  &:focus {
+    border-color: var(--p-primary-color) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-primary-color) 20%, transparent) !important;
+  }
+}
+
+.p-inputtext.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched,
+.p-inputwrapper.ng-invalid.ng-touched .p-inputtext {
+  border-color: var(--p-red-500) !important;
+  background-color: var(--app-error-bg) !important;
+
+  &:focus {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-red-500) 20%, transparent) !important;
   }
 }
