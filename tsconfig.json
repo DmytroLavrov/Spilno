@@ -11,7 +11,8 @@
       "@features/*": ["src/app/features/*"],
       "@models/*": ["src/app/models/*"],
       "@env/*": ["src/environments/*"],
-      "@layout/*": ["src/app/layout/*"]
+      "@layout/*": ["src/app/layout/*"],
+      "@app/*": ["src/app/*"]
     },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
